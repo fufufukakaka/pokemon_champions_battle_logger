@@ -59,7 +59,7 @@ Or right-click the app and select "Open" instead of double-clicking.
 
 ## Requirements
 
-- **Video input**: 1920x1080 (1080p) video
+- **Video input**: 1920x1080 (1080p) 30fps video
 - **Format**: Single battles in Pokemon Champions
 - **Storage**: ~500MB for the app + model files downloaded on first launch
 
@@ -68,24 +68,6 @@ Or right-click the app and select "Open" instead of double-clicking.
 - [Report a Bug](https://github.com/fufufukakaka/pokemon_champions_battle_logger/issues/new?template=bug_report.yml)
 - [Request a Feature](https://github.com/fufufukakaka/pokemon_champions_battle_logger/issues/new?template=feature_request.yml)
 <!-- - [Discord](https://discord.gg/XXXXX) -->
-
-## For Developers
-
-If you want to run from source or contribute:
-
-```bash
-# Clone the development repository
-git clone https://github.com/fufufukakaka/poke_battle_logger_2.git
-cd poke_battle_logger_2
-
-# Install dependencies
-uv sync --all-extras
-
-# Run development server
-make dev
-```
-
-See the [development repository](https://github.com/fufufukakaka/poke_battle_logger_2) for more details.
 
 ## License
 
