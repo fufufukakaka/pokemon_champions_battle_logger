@@ -1,0 +1,71 @@
+name: Bug Report
+description: Report a bug or unexpected behavior
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug! Please fill out the information below.
+
+  - type: input
+    id: version
+    attributes:
+      label: App Version
+      description: "You can find this in Settings > App Info"
+      placeholder: "e.g., v0.1.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - Windows (x64)
+        - macOS (Apple Silicon)
+        - macOS (Intel)
+        - Linux (x64)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: language
+    attributes:
+      label: Game Language
+      options:
+        - Japanese
+        - English
+        - Traditional Chinese
+        - Simplified Chinese
+        - Korean
+        - French
+        - Spanish
+        - Italian
+        - German
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the bug clearly
+      placeholder: "When I did X, I expected Y but got Z instead."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: How can we reproduce this?
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. See error
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Log output (if applicable)
+      description: "Paste relevant logs from ~/.poke_champions_logger/logs/app.log"
+      render: shell
