@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pokemon Champions Battle Logger — Dominate Your Battle Data</title>
+  <title>Poké Champions Logger — Dominate Your Battle Data</title>
   <meta name="description" content="Pokémon Champions の対戦を自動記録・分析。動画を入れるだけで、勝率・選出傾向・技選択を瞬時に可視化。">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Cdefs%3E%3ClinearGradient id='b' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%23FF3B30'/%3E%3Cstop offset='46%25' stop-color='%23FF3B30'/%3E%3Cstop offset='46%25' stop-color='%23222230'/%3E%3Cstop offset='54%25' stop-color='%23222230'/%3E%3Cstop offset='54%25' stop-color='%230D0D14'/%3E%3Cstop offset='100%25' stop-color='%230D0D14'/%3E%3C/linearGradient%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23FFD700'/%3E%3Cstop offset='50%25' stop-color='%23B8860B'/%3E%3Cstop offset='100%25' stop-color='%23FFD700'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='18' cy='18' r='16' fill='url(%23b)' stroke='url(%23g)' stroke-width='2.5'/%3E%3Cpolygon points='14,10 14,26 26,18' fill='white'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -113,6 +113,48 @@
     [data-theme="dark"] .icon-moon { display: none; }
     [data-theme="light"] .icon-sun { display: none; }
     [data-theme="light"] .icon-moon { display: block; }
+
+    /* ===== Carousel ===== */
+    .carousel { position: relative; overflow: hidden; border-radius: 12px; }
+    .carousel-track {
+      display: flex; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .carousel-slide {
+      min-width: 100%; position: relative;
+    }
+    .carousel-slide img {
+      width: 100%; height: auto; display: block; border-radius: 12px;
+    }
+    .carousel-caption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 16px 24px;
+      background: linear-gradient(transparent, rgba(0,0,0,0.7));
+      border-radius: 0 0 12px 12px;
+      color: #fff; font-size: 14px; font-weight: 500;
+    }
+    .carousel-btn {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15);
+      color: #fff; font-size: 18px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s; backdrop-filter: blur(8px); z-index: 2;
+    }
+    .carousel-btn:hover { background: rgba(0,0,0,0.7); }
+    .carousel-btn.prev { left: 12px; }
+    .carousel-btn.next { right: 12px; }
+    .carousel-dots {
+      display: flex; justify-content: center; gap: 8px;
+      margin-top: 16px;
+    }
+    .carousel-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--c-text-muted); border: none; cursor: pointer;
+      transition: all 0.3s; padding: 0;
+    }
+    .carousel-dot.active {
+      background: #FF3B30; width: 24px; border-radius: 4px;
+    }
   </style>
 </head>
 <body style="background:var(--c-page); color:var(--c-text-primary);" class="transition-colors duration-300">
@@ -134,7 +176,7 @@
         <circle cx="18" cy="18" r="16" fill="url(#hdr-ball)" stroke="url(#hdr-gold)" stroke-width="2.5"/>
         <polygon points="14,10 14,26 26,18" fill="white"/>
       </svg>
-      <span class="font-sora text-lg font-bold tracking-wide" style="color:var(--c-logo-text);">POKEMON CHAMPIONS BATTLE LOGGER</span>
+      <span class="font-sora text-lg font-bold tracking-wide" style="color:var(--c-logo-text);">POKÉ CHAMPIONS LOGGER</span>
     </div>
     <nav class="flex items-center gap-10">
       <a href="#features" class="nav-link text-sm font-medium transition-colors" style="color:var(--c-text-secondary);">Features</a>
@@ -165,13 +207,44 @@
       <a href="#download" class="btn-primary text-white font-semibold text-base px-10 py-4 rounded-lg hover:brightness-110 transition">
         Download for Free
       </a>
-      <a href="https://github.com/fufufukakaka/pokemon_champions_battle_logger" class="flex items-center gap-2.5 font-medium text-base px-10 py-4 rounded-lg transition" style="border:1px solid var(--c-border-strong); color:var(--c-text-secondary);">
+      <a href="https://github.com" class="flex items-center gap-2.5 font-medium text-base px-10 py-4 rounded-lg transition" style="border:1px solid var(--c-border-strong); color:var(--c-text-secondary);">
         View on GitHub
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
       </a>
     </div>
-    <div class="w-[1000px] max-w-full h-[560px] rounded-xl mt-4 overflow-hidden flex items-center justify-center" style="background:var(--c-surface); border:1px solid var(--c-border); box-shadow:0 20px 80px var(--c-screenshot-shadow);">
-      <span class="text-base font-medium" style="color:var(--c-text-muted);">Dashboard Screenshot</span>
+    <div class="w-[1000px] max-w-full mt-4" style="filter:drop-shadow(0 20px 80px var(--c-screenshot-shadow));">
+      <div class="carousel" id="heroCarousel" style="border:1px solid var(--c-border);">
+        <div class="carousel-track" id="carouselTrack">
+          <div class="carousel-slide">
+            <img src="dashboard.png" alt="Dashboard" loading="lazy">
+            <div class="carousel-caption">Dashboard — 勝率・ランク・最近の対戦を一覧表示</div>
+          </div>
+          <div class="carousel-slide">
+            <img src="upload_and_process_video.png" alt="Video Processing" loading="lazy">
+            <div class="carousel-caption">Video Processing — YouTube URL やローカル動画を AI が自動解析</div>
+          </div>
+          <div class="carousel-slide">
+            <img src="analysis.png" alt="Analysis" loading="lazy">
+            <div class="carousel-caption">Analysis — 勝率推移・ランク推移をグラフで可視化</div>
+          </div>
+          <div class="carousel-slide">
+            <img src="battle_detail.png" alt="Battle Detail" loading="lazy">
+            <div class="carousel-caption">Battle Detail — 選出・対戦タイムラインを詳細表示</div>
+          </div>
+        </div>
+        <button class="carousel-btn prev" onclick="carouselPrev()" aria-label="Previous">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <button class="carousel-btn next" onclick="carouselNext()" aria-label="Next">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+      </div>
+      <div class="carousel-dots" id="carouselDots">
+        <button class="carousel-dot active" onclick="carouselGo(0)"></button>
+        <button class="carousel-dot" onclick="carouselGo(1)"></button>
+        <button class="carousel-dot" onclick="carouselGo(2)"></button>
+        <button class="carousel-dot" onclick="carouselGo(3)"></button>
+      </div>
     </div>
   </section>
 
@@ -287,11 +360,11 @@
       完全無料。簡単セットアップ。あなたのデータはあなたのもの。
     </p>
     <div class="flex items-center gap-4">
-      <a href="https://github.com/fufufukakaka/pokemon_champions_battle_logger/releases/latest" class="btn-primary flex items-center gap-3 text-white font-semibold text-lg px-12 py-[18px] rounded-lg hover:brightness-110 transition" style="box-shadow:0 4px 30px var(--c-cta-shadow);">
+      <a href="#" class="btn-primary flex items-center gap-3 text-white font-semibold text-lg px-12 py-[18px] rounded-lg hover:brightness-110 transition" style="box-shadow:0 4px 30px var(--c-cta-shadow);">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
         Download Now
       </a>
-      <a href="https://github.com/fufufukakaka/pokemon_champions_battle_logger" class="flex items-center gap-3 font-medium text-lg px-12 py-[18px] rounded-lg transition" style="border:1px solid var(--c-border-strong); color:var(--c-text-secondary);">
+      <a href="https://github.com" class="flex items-center gap-3 font-medium text-lg px-12 py-[18px] rounded-lg transition" style="border:1px solid var(--c-border-strong); color:var(--c-text-secondary);">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         Star on GitHub
       </a>
@@ -320,7 +393,7 @@
             <circle cx="18" cy="18" r="16" fill="url(#ftr-ball)" stroke="url(#ftr-gold)" stroke-width="2.5"/>
             <polygon points="14,10 14,26 26,18" fill="white"/>
           </svg>
-          <span class="font-sora text-sm font-bold tracking-wide" style="color:var(--c-logo-text);">POKEMON CHAMPIONS BATTLE LOGGER</span>
+          <span class="font-sora text-sm font-bold tracking-wide" style="color:var(--c-logo-text);">POKÉ CHAMPIONS LOGGER</span>
         </div>
         <p class="text-[13px] leading-relaxed" style="color:var(--c-text-muted);">
           ポケモン対戦データを自動記録・分析する<br>オープンソースツール。
@@ -334,7 +407,7 @@
       </div>
       <div class="flex flex-col gap-4">
         <span class="text-[11px] font-bold tracking-[2px]" style="color:var(--c-text-muted);">DEVELOPER</span>
-        <a href="https://github.com/fufufukakaka/pokemon_champions_battle_logger" class="text-sm transition-colors" style="color:var(--c-text-secondary);">GitHub</a>
+        <a href="https://github.com" class="text-sm transition-colors" style="color:var(--c-text-secondary);">GitHub</a>
         <a href="#" class="text-sm transition-colors" style="color:var(--c-text-secondary);">Documentation</a>
         <a href="#" class="text-sm transition-colors" style="color:var(--c-text-secondary);">Contributing</a>
       </div>
@@ -342,12 +415,12 @@
         <span class="text-[11px] font-bold tracking-[2px]" style="color:var(--c-text-muted);">COMMUNITY</span>
         <a href="#" class="text-sm transition-colors" style="color:var(--c-text-secondary);">Twitter / X</a>
         <a href="#" class="text-sm transition-colors" style="color:var(--c-text-secondary);">Discord</a>
-        <a href="https://github.com/fufufukakaka/pokemon_champions_battle_logger/issues/new?template=bug_report.yml" class="text-sm transition-colors" style="color:var(--c-text-secondary);">Report Bug</a>
+        <a href="#" class="text-sm transition-colors" style="color:var(--c-text-secondary);">Report Bug</a>
       </div>
     </div>
     <div class="h-px w-full mb-8" style="background:var(--c-divider);"></div>
     <div class="flex justify-between items-center">
-      <span class="text-xs" style="color:var(--c-text-muted);">&copy; 2026 Pokemon Champions Battle Logger. All rights reserved.</span>
+      <span class="text-xs" style="color:var(--c-text-muted);">&copy; 2026 Poké Champions Logger. All rights reserved.</span>
       <span class="text-xs" style="color:var(--c-text-muted);">Made with ♥ for Pokémon Trainers</span>
     </div>
   </footer>
@@ -363,6 +436,36 @@
     // Restore saved preference
     const saved = localStorage.getItem('theme');
     if (saved) document.documentElement.setAttribute('data-theme', saved);
+
+    // Carousel
+    (function() {
+      let idx = 0;
+      const total = 4;
+      const track = document.getElementById('carouselTrack');
+      const dots = document.querySelectorAll('.carousel-dot');
+      const carousel = document.getElementById('heroCarousel');
+      let timer;
+
+      function update() {
+        track.style.transform = 'translateX(-' + (idx * 100) + '%)';
+        dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+      }
+
+      function startAuto() {
+        timer = setInterval(function() { idx = (idx + 1) % total; update(); }, 5000);
+      }
+
+      function stopAuto() { clearInterval(timer); }
+
+      window.carouselNext = function() { stopAuto(); idx = (idx + 1) % total; update(); startAuto(); };
+      window.carouselPrev = function() { stopAuto(); idx = (idx - 1 + total) % total; update(); startAuto(); };
+      window.carouselGo = function(i) { stopAuto(); idx = i; update(); startAuto(); };
+
+      carousel.addEventListener('mouseenter', stopAuto);
+      carousel.addEventListener('mouseleave', startAuto);
+
+      startAuto();
+    })();
   </script>
 
 </body>
