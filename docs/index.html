@@ -343,7 +343,8 @@
                 <span
                     class="font-sora text-sm sm:text-lg font-bold tracking-wide"
                     style="color: var(--c-logo-text)"
-                    >POKÉMON CHAMPIONS BATTLE LOGGER</span>
+                    >POKÉ CHAMPIONS LOGGER</span
+                >
             </div>
             <!-- Desktop nav -->
             <nav class="hidden md:flex items-center gap-10">
@@ -436,11 +437,24 @@
                 <button
                     onclick="toggleMobileMenu()"
                     class="w-10 h-10 rounded-lg flex items-center justify-center"
-                    style="border: 1px solid var(--c-border); background: var(--c-surface)"
+                    style="
+                        border: 1px solid var(--c-border);
+                        background: var(--c-surface);
+                    "
                     aria-label="Open menu"
                     id="hamburgerBtn"
                 >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--c-text-secondary)">
+                    <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        style="color: var(--c-text-secondary)"
+                    >
                         <line x1="4" x2="20" y1="6" y2="6" />
                         <line x1="4" x2="20" y1="12" y2="12" />
                         <line x1="4" x2="20" y1="18" y2="18" />
@@ -448,32 +462,90 @@
                 </button>
             </div>
             <!-- Mobile menu overlay -->
-            <div id="mobileMenu" class="hidden fixed inset-0 z-50 md:hidden" style="background: var(--c-page)">
-                <div class="flex items-center justify-between h-16 px-4 sm:px-8">
+            <div
+                id="mobileMenu"
+                class="hidden fixed inset-0 z-50 md:hidden"
+                style="background: var(--c-page)"
+            >
+                <div
+                    class="flex items-center justify-between h-16 px-4 sm:px-8"
+                >
                     <div class="flex items-center gap-2">
-                        <svg width="32" height="32" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="18" cy="18" r="16" fill="url(#hdr-ball)" stroke="url(#hdr-gold)" stroke-width="2.5" />
+                        <svg
+                            width="32"
+                            height="32"
+                            viewBox="0 0 36 36"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <circle
+                                cx="18"
+                                cy="18"
+                                r="16"
+                                fill="url(#hdr-ball)"
+                                stroke="url(#hdr-gold)"
+                                stroke-width="2.5"
+                            />
                             <polygon points="14,10 14,26 26,18" fill="white" />
                         </svg>
-                        <span class="font-sora text-sm font-bold tracking-wide" style="color: var(--c-logo-text)">POKÉ CHAMPIONS LOGGER</span>
+                        <span
+                            class="font-sora text-sm font-bold tracking-wide"
+                            style="color: var(--c-logo-text)"
+                            >POKÉMON CHAMPIONS BATTLE LOGGER</span
+                        >
                     </div>
                     <button
                         onclick="toggleMobileMenu()"
                         class="w-10 h-10 rounded-lg flex items-center justify-center"
-                        style="border: 1px solid var(--c-border); background: var(--c-surface)"
+                        style="
+                            border: 1px solid var(--c-border);
+                            background: var(--c-surface);
+                        "
                         aria-label="Close menu"
                     >
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--c-text-secondary)">
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            style="color: var(--c-text-secondary)"
+                        >
                             <path d="M18 6 6 18" />
                             <path d="m6 6 12 12" />
                         </svg>
                     </button>
                 </div>
                 <nav class="flex flex-col items-center gap-8 pt-12">
-                    <a href="#features" onclick="toggleMobileMenu()" class="text-xl font-medium" style="color: var(--c-text-secondary)">Features</a>
-                    <a href="#journey" onclick="toggleMobileMenu()" class="text-xl font-medium" style="color: var(--c-text-secondary)">Journey</a>
-                    <a href="#download" onclick="toggleMobileMenu()" class="text-xl font-medium" style="color: var(--c-text-secondary)">Download</a>
-                    <a href="#download" onclick="toggleMobileMenu()" class="bg-[#FF3B30] text-white text-base font-semibold px-8 py-3 rounded-md hover:brightness-110 transition mt-4">Download Free</a>
+                    <a
+                        href="#features"
+                        onclick="toggleMobileMenu()"
+                        class="text-xl font-medium"
+                        style="color: var(--c-text-secondary)"
+                        >Features</a
+                    >
+                    <a
+                        href="#journey"
+                        onclick="toggleMobileMenu()"
+                        class="text-xl font-medium"
+                        style="color: var(--c-text-secondary)"
+                        >Journey</a
+                    >
+                    <a
+                        href="#download"
+                        onclick="toggleMobileMenu()"
+                        class="text-xl font-medium"
+                        style="color: var(--c-text-secondary)"
+                        >Download</a
+                    >
+                    <a
+                        href="#download"
+                        onclick="toggleMobileMenu()"
+                        class="bg-[#FF3B30] text-white text-base font-semibold px-8 py-3 rounded-md hover:brightness-110 transition mt-4"
+                        >Download Free</a
+                    >
                 </nav>
             </div>
         </header>
@@ -506,7 +578,9 @@
                 Pokémon Champions の対戦を自動記録・分析。<br />
                 動画を入れるだけで、勝率・選出傾向・技選択を瞬時に可視化。
             </p>
-            <div class="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 w-full sm:w-auto">
+            <div
+                class="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 w-full sm:w-auto"
+            >
                 <a
                     href="#download"
                     class="btn-primary text-white font-semibold text-sm sm:text-base px-8 sm:px-10 py-3.5 sm:py-4 rounded-lg hover:brightness-110 transition w-full sm:w-auto text-center"
@@ -680,7 +754,9 @@
                     動画をドロップするだけ。あとは AI がすべて解析します。
                 </p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 w-full max-w-[1200px]">
+            <div
+                class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 w-full max-w-[1200px]"
+            >
                 <!-- Card 1 -->
                 <div
                     class="rounded-xl p-8 flex flex-col gap-5"
@@ -835,7 +911,9 @@
                     録画から分析まで、<br />シームレスに。
                 </h2>
             </div>
-            <div class="flex flex-col md:flex-row items-center justify-center w-full max-w-[1280px] gap-2 md:gap-0">
+            <div
+                class="flex flex-col md:flex-row items-center justify-center w-full max-w-[1280px] gap-2 md:gap-0"
+            >
                 <!-- Step 1 -->
                 <div class="flex flex-col items-center gap-4 w-[220px]">
                     <div
@@ -1126,7 +1204,9 @@
                 今すぐダウンロードして、データドリブンなバトルを始めましょう。<br />
                 完全無料。簡単セットアップ。あなたのデータはあなたのもの。
             </p>
-            <div class="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 w-full sm:w-auto">
+            <div
+                class="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 w-full sm:w-auto"
+            >
                 <a
                     href="#"
                     class="btn-primary flex items-center justify-center gap-3 text-white font-semibold text-base sm:text-lg px-8 sm:px-12 py-4 sm:py-[18px] rounded-lg hover:brightness-110 transition w-full sm:w-auto"
@@ -1181,8 +1261,13 @@
         <div class="h-px w-full" style="background: var(--c-divider)"></div>
 
         <!-- Footer -->
-        <footer class="pt-12 md:pt-16 pb-8 md:pb-10 px-4 sm:px-8 lg:px-20" style="background: var(--c-footer)">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 mb-8 md:mb-10">
+        <footer
+            class="pt-12 md:pt-16 pb-8 md:pb-10 px-4 sm:px-8 lg:px-20"
+            style="background: var(--c-footer)"
+        >
+            <div
+                class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 mb-8 md:mb-10"
+            >
                 <div class="flex flex-col gap-4 sm:col-span-2 lg:col-span-1">
                     <div class="flex items-center gap-3">
                         <svg
@@ -1231,14 +1316,14 @@
                         <span
                             class="font-sora text-sm font-bold tracking-wide"
                             style="color: var(--c-logo-text)"
-                            >POKÉ CHAMPIONS LOGGER</span
+                            >POKÉMON CHAMPIONS BATTLE LOGGER</span
                         >
                     </div>
                     <p
                         class="text-[13px] leading-relaxed"
                         style="color: var(--c-text-muted)"
                     >
-                        ポケモン対戦データを自動記録・分析する<br />オープンソースツール。
+                        ポケモン対戦データを自動記録・分析する<br />ツール。
                     </p>
                 </div>
                 <div class="flex flex-col gap-4">
@@ -1321,9 +1406,11 @@
                 class="h-px w-full mb-6 md:mb-8"
                 style="background: var(--c-divider)"
             ></div>
-            <div class="flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div
+                class="flex flex-col sm:flex-row justify-between items-center gap-2"
+            >
                 <span class="text-xs" style="color: var(--c-text-muted)"
-                    >&copy; 2026 Poké Champions Logger. All rights
+                    >&copy; 2026 Pokémon Champions Battle Logger. All rights
                     reserved.</span
                 >
                 <span class="text-xs" style="color: var(--c-text-muted)"
@@ -1343,7 +1430,9 @@
             function toggleMobileMenu() {
                 const menu = document.getElementById("mobileMenu");
                 menu.classList.toggle("hidden");
-                document.body.style.overflow = menu.classList.contains("hidden") ? "" : "hidden";
+                document.body.style.overflow = menu.classList.contains("hidden")
+                    ? ""
+                    : "hidden";
             }
             // Restore saved preference
             const saved = localStorage.getItem("theme");
