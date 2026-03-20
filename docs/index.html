@@ -1,24 +1,24 @@
 <!doctype html>
-<html lang="ja" data-theme="dark">
+<html lang="en">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>
-            Pokémon Champions Battle Logger — Dominate Your Battle Data
+            Poké Champions Logger — Record and Analyze Your Pokémon Battles
         </title>
         <meta
             name="description"
-            content="Pokémon Champions の対戦を自動記録・分析。動画を入れるだけで、勝率・選出傾向・技選択を瞬時に可視化。"
+            content="Drop a video. Get every team, move, and result logged by AI. No manual input. No setup. Just your battle data, organized."
         />
         <link
             rel="icon"
             type="image/svg+xml"
-            href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Cdefs%3E%3ClinearGradient id='b' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%23FF3B30'/%3E%3Cstop offset='46%25' stop-color='%23FF3B30'/%3E%3Cstop offset='46%25' stop-color='%23222230'/%3E%3Cstop offset='54%25' stop-color='%23222230'/%3E%3Cstop offset='54%25' stop-color='%230D0D14'/%3E%3Cstop offset='100%25' stop-color='%230D0D14'/%3E%3C/linearGradient%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23FFD700'/%3E%3Cstop offset='50%25' stop-color='%23B8860B'/%3E%3Cstop offset='100%25' stop-color='%23FFD700'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='18' cy='18' r='16' fill='url(%23b)' stroke='url(%23g)' stroke-width='2.5'/%3E%3Cpolygon points='14,10 14,26 26,18' fill='white'/%3E%3C/svg%3E"
+            href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Cdefs%3E%3ClinearGradient id='b' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%2322D3EE'/%3E%3Cstop offset='100%25' stop-color='%230EA5E9'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='36' height='36' rx='8' fill='url(%23b)'/%3E%3C/svg%3E"
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap"
             rel="stylesheet"
         />
         <script src="https://cdn.tailwindcss.com"></script>
@@ -27,8 +27,20 @@
                 theme: {
                     extend: {
                         fontFamily: {
-                            sora: ["Sora", "sans-serif"],
                             inter: ["Inter", "sans-serif"],
+                            mono: ["JetBrains Mono", "monospace"],
+                        },
+                        colors: {
+                            page: "#0A0F1C",
+                            surface: "#0F172A",
+                            card: "#1E293B",
+                            accent: "#22D3EE",
+                            "accent-hover": "#06B6D4",
+                            "text-primary": "#FFFFFF",
+                            "text-secondary": "#94A3B8",
+                            "text-muted": "#64748B",
+                            "text-dim": "#475569",
+                            border: "#1E293B",
                         },
                     },
                 },
@@ -41,169 +53,8 @@
             body {
                 font-family: "Inter", sans-serif;
             }
-            .font-sora {
-                font-family: "Sora", sans-serif;
-            }
-            .btn-primary {
-                background: linear-gradient(180deg, #ff3b30 0%, #cc2f26 100%);
-            }
 
-            /* ===== Theme Variables ===== */
-            :root {
-                --c-page: #0a0a0f;
-                --c-surface: #111118;
-                --c-elevated: #0d0d14;
-                --c-footer: #060609;
-                --c-border: #2a2a2a;
-                --c-border-strong: #3a3a3a;
-                --c-text-primary: #ffffff;
-                --c-text-secondary: #8a8a99;
-                --c-text-muted: #525260;
-                --c-divider: #1a1a1a;
-                --c-arrow: #2a2a2a;
-                --c-logo-text: #ffffff;
-                --c-footer-link-hover: #ffffff;
-                /* Icon tint backgrounds */
-                --c-red-tint: rgba(255, 59, 48, 0.06);
-                --c-red-border: rgba(255, 59, 48, 0.19);
-                --c-cyan-tint: rgba(0, 212, 255, 0.06);
-                --c-cyan-border: rgba(0, 212, 255, 0.19);
-                --c-green-tint: rgba(50, 215, 75, 0.06);
-                --c-green-border: rgba(50, 215, 75, 0.19);
-                /* Hero / CTA radial */
-                --hero-bg: radial-gradient(
-                    ellipse 120% 120% at 50% 30%,
-                    #1a0a20 0%,
-                    #0a0a0f 70%,
-                    #0a0a0f 100%
-                );
-                --cta-bg: radial-gradient(
-                    ellipse at 50% 50%,
-                    #1a0a20 0%,
-                    #0a0a0f 80%
-                );
-                /* Dividers */
-                --divider-accent: linear-gradient(
-                    90deg,
-                    #0a0a0f 0%,
-                    rgba(255, 59, 48, 0.38) 30%,
-                    rgba(0, 212, 255, 0.38) 70%,
-                    #0a0a0f 100%
-                );
-                --divider-subtle: linear-gradient(
-                    90deg,
-                    #0a0a0f 0%,
-                    #2a2a2a 50%,
-                    #0a0a0f 100%
-                );
-                /* Screenshot shadow */
-                --c-screenshot-shadow: rgba(255, 59, 48, 0.08);
-                --c-cta-shadow: rgba(255, 59, 48, 0.25);
-                /* Badge */
-                --c-badge-border: rgba(255, 59, 48, 0.25);
-            }
-
-            [data-theme="light"] {
-                --c-page: #f5f5f8;
-                --c-surface: #ffffff;
-                --c-elevated: #eeeef3;
-                --c-footer: #f0f0f5;
-                --c-border: #dddde5;
-                --c-border-strong: #ccccdd;
-                --c-text-primary: #111118;
-                --c-text-secondary: #555566;
-                --c-text-muted: #888899;
-                --c-divider: #dddde5;
-                --c-arrow: #ccccdd;
-                --c-logo-text: #111118;
-                --c-footer-link-hover: #111118;
-                --c-red-tint: rgba(255, 59, 48, 0.08);
-                --c-red-border: rgba(255, 59, 48, 0.2);
-                --c-cyan-tint: rgba(0, 180, 220, 0.08);
-                --c-cyan-border: rgba(0, 180, 220, 0.2);
-                --c-green-tint: rgba(40, 180, 60, 0.08);
-                --c-green-border: rgba(40, 180, 60, 0.2);
-                --hero-bg: radial-gradient(
-                    ellipse 120% 120% at 50% 30%,
-                    #ede5f5 0%,
-                    #f5f5f8 70%,
-                    #f5f5f8 100%
-                );
-                --cta-bg: radial-gradient(
-                    ellipse at 50% 50%,
-                    #ede5f5 0%,
-                    #f5f5f8 80%
-                );
-                --divider-accent: linear-gradient(
-                    90deg,
-                    #f5f5f8 0%,
-                    rgba(255, 59, 48, 0.25) 30%,
-                    rgba(0, 180, 220, 0.25) 70%,
-                    #f5f5f8 100%
-                );
-                --divider-subtle: linear-gradient(
-                    90deg,
-                    #f5f5f8 0%,
-                    #dddde5 50%,
-                    #f5f5f8 100%
-                );
-                --c-screenshot-shadow: rgba(0, 0, 0, 0.07);
-                --c-cta-shadow: rgba(255, 59, 48, 0.2);
-                --c-badge-border: rgba(255, 59, 48, 0.19);
-            }
-
-            /* Light theme: headings stay dark */
-            [data-theme="light"] .heading-text {
-                color: #111118;
-            }
-            [data-theme="light"] .nav-link:hover {
-                color: #111118;
-            }
-            /* Light theme: secondary button text */
-            [data-theme="light"] .btn-secondary-text {
-                color: #555566;
-            }
-            [data-theme="light"] .btn-secondary-text:hover {
-                border-color: #999;
-            }
-
-            /* Toggle button */
-            .theme-toggle {
-                width: 40px;
-                height: 40px;
-                border-radius: 8px;
-                border: 1px solid var(--c-border);
-                background: var(--c-surface);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-                transition: all 0.2s;
-            }
-            .theme-toggle:hover {
-                border-color: var(--c-border-strong);
-            }
-            .theme-toggle svg {
-                width: 18;
-                height: 18;
-                stroke: var(--c-text-secondary);
-                fill: none;
-                stroke-width: 2;
-            }
-            [data-theme="dark"] .icon-sun {
-                display: block;
-            }
-            [data-theme="dark"] .icon-moon {
-                display: none;
-            }
-            [data-theme="light"] .icon-sun {
-                display: none;
-            }
-            [data-theme="light"] .icon-moon {
-                display: block;
-            }
-
-            /* ===== Carousel ===== */
+            /* Carousel */
             .carousel {
                 position: relative;
                 overflow: hidden;
@@ -215,7 +66,6 @@
             }
             .carousel-slide {
                 min-width: 100%;
-                position: relative;
             }
             .carousel-slide img {
                 width: 100%;
@@ -250,7 +100,6 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                transition: background 0.2s;
                 backdrop-filter: blur(8px);
                 z-index: 2;
             }
@@ -273,233 +122,270 @@
                 width: 8px;
                 height: 8px;
                 border-radius: 50%;
-                background: var(--c-text-muted);
+                background: #475569;
                 border: none;
                 cursor: pointer;
-                transition: all 0.3s;
                 padding: 0;
             }
             .carousel-dot.active {
-                background: #ff3b30;
+                background: #22d3ee;
                 width: 24px;
                 border-radius: 4px;
             }
         </style>
+        <script>
+            // ===== i18n =====
+            const i18n = {
+                en: {
+                    "nav.features": "Features",
+                    "nav.how": "How It Works",
+                    "nav.github": "GitHub",
+                    "nav.download": "Download",
+                    "hero.badge": "A personal tool, shared freely",
+                    "hero.headline":
+                        "Record and analyze your Pokémon battles. Automatically.",
+                    "hero.sub":
+                        "Drop a video. Get every team, move, and result logged by AI.\nNo manual input. No setup. Just your battle data, organized.",
+                    "hero.cta.primary": "Download Free",
+                    "hero.cta.secondary": "View on GitHub",
+                    "feat.label": "FEATURES",
+                    "feat.title": "Battle intelligence, automated.",
+                    "feat.sub": "Drop a video and let AI handle the rest.",
+                    "feat.1.title": "Auto Battle Detection",
+                    "feat.1.desc":
+                        "Paste a YouTube URL or drop a local file. AI detects battle scenes, identifies Pokémon, moves, and outcomes.",
+                    "feat.2.title": "Deep Analytics",
+                    "feat.2.desc":
+                        "Win rate trends, team usage patterns, knockout stats — all visualized in real time. Find your weaknesses.",
+                    "feat.3.title": "8 Languages",
+                    "feat.3.desc":
+                        "Japanese, English, Chinese, Korean and more. Built to be shared with trainers around the world.",
+                    "how.label": "HOW IT WORKS",
+                    "how.title": "From recording to insights, seamlessly.",
+                    "how.1": "Play a battle",
+                    "how.2": "Record or upload",
+                    "how.3": "Paste the URL",
+                    "how.4": "AI analyzes",
+                    "how.5": "Review your stats",
+                    "cta.headline": "Give it a try.",
+                    "cta.sub":
+                        "Free to use, and your data stays local.\nBuilt for trainers, by a trainer.",
+                    "cta.primary": "Download Now",
+                    "cta.secondary": "Star on GitHub",
+                    "cta.discord": "Discord",
+                    "cta.x": "X (Twitter)",
+                    "footer.tagline":
+                        "A battle logger for\nPokémon competitive play.",
+                    "footer.col1.title": "PRODUCT",
+                    "footer.col1.1": "Features",
+                    "footer.col1.2": "Download",
+                    "footer.col1.3": "Changelog",
+                    "footer.col2.title": "LINKS",
+                    "footer.col2.1": "GitHub",
+                    "footer.col2.2": "Documentation",
+                    "footer.col2.3": "Changelog",
+                    "footer.col3.title": "COMMUNITY",
+                    "footer.col3.1": "Twitter / X",
+                    "footer.col3.2": "Discord",
+                    "footer.col3.3": "Report Bug",
+                    "footer.privacy": "Privacy Policy",
+                    "footer.terms": "Terms of Use",
+                    "footer.copy": "© 2026 Poké Champions Logger",
+                    "carousel.dashboard": "Dashboard",
+                    "carousel.upload": "Video Processing",
+                    "carousel.analysis": "Analysis",
+                    "carousel.detail": "Battle Detail",
+                },
+                ja: {
+                    "nav.features": "Features",
+                    "nav.how": "How It Works",
+                    "nav.github": "GitHub",
+                    "nav.download": "Download",
+                    "hero.badge": "A personal tool, shared freely",
+                    "hero.headline":
+                        "Record and analyze your Pokémon battles. Automatically.",
+                    "hero.sub":
+                        "動画をインプットすれば機械学習によって自動的に解析.\n対戦に集中したあとで、自動的に振り返り。",
+                    "hero.cta.primary": "Download Free",
+                    "hero.cta.secondary": "View on GitHub",
+                    "feat.label": "FEATURES",
+                    "feat.title": "Battle intelligence, automated.",
+                    "feat.sub": "対戦動画を録画するだけ。機械学習で解析します",
+                    "feat.1.title": "Auto Battle Detection",
+                    "feat.1.desc":
+                        "対戦動画の YouTube URL かローカルファイルを入力。 機械学習によって、シーンやポケモン名、技、バトルメッセージの検出と読み取りを行います。",
+                    "feat.2.title": "Deep Analytics",
+                    "feat.2.desc":
+                        "勝率推移や技の使用率、ポケモンごとの勝率などを自動的に集計。AI と一緒に振り返ろう。",
+                    "feat.3.title": "8 Languages",
+                    "feat.3.desc":
+                        "ポケモン名については日本語、英語を主として8言語に対応。",
+                    "how.label": "HOW IT WORKS",
+                    "how.title": "From recording to insights, seamlessly.",
+                    "how.1": "いつも通りに対戦",
+                    "how.2":
+                        "対戦を録画して YouTube(限定公開など) にアップロード",
+                    "how.3": "ツール上で YouTube URL を入力",
+                    "how.4": "機械学習による解析",
+                    "how.5": "対戦のデータを振り返り",
+                    "cta.headline": "Give it a try.",
+                    "cta.sub":
+                        "無料で利用できます。また、対戦データは全てローカルに保存。\nポケモン対戦ユーザの作った、ポケモン対戦ユーザのためのツールです。",
+                    "cta.primary": "Download Now",
+                    "cta.secondary": "Star on GitHub",
+                    "cta.discord": "Discord",
+                    "cta.x": "X (Twitter)",
+                    "footer.tagline":
+                        "A battle logger for\nPokémon competitive play.",
+                    "footer.col1.title": "PRODUCT",
+                    "footer.col1.1": "Features",
+                    "footer.col1.2": "Download",
+                    "footer.col1.3": "Changelog",
+                    "footer.col2.title": "LINKS",
+                    "footer.col2.1": "GitHub",
+                    "footer.col2.2": "Documentation",
+                    "footer.col2.3": "Changelog",
+                    "footer.col3.title": "COMMUNITY",
+                    "footer.col3.1": "Twitter / X",
+                    "footer.col3.2": "Discord",
+                    "footer.col3.3": "Report Bug",
+                    "footer.privacy": "Privacy Policy",
+                    "footer.terms": "Terms of Use",
+                    "footer.copy": "© 2026 Poké Champions Logger",
+                    "carousel.dashboard": "Dashboard",
+                    "carousel.upload": "Video Processing",
+                    "carousel.analysis": "Analysis",
+                    "carousel.detail": "Battle Detail",
+                },
+            };
+
+            let currentLang = "en";
+
+            function setLang(lang) {
+                currentLang = lang;
+                document.documentElement.lang = lang;
+                document.querySelectorAll("[data-i18n]").forEach((el) => {
+                    const key = el.getAttribute("data-i18n");
+                    const text = i18n[lang]?.[key];
+                    if (text) {
+                        if (
+                            el.tagName === "INPUT" ||
+                            el.tagName === "TEXTAREA"
+                        ) {
+                            el.placeholder = text;
+                        } else {
+                            el.innerHTML = text.replace(/\n/g, "<br>");
+                        }
+                    }
+                });
+                // Update toggle button labels
+                const label = lang === "en" ? "EN" : "JA";
+                const toggle = document.getElementById("langToggle");
+                if (toggle) toggle.textContent = label;
+                document
+                    .querySelectorAll(".lang-toggle-mobile")
+                    .forEach((el) => {
+                        el.textContent = label;
+                    });
+            }
+
+            function toggleLang() {
+                const next = currentLang === "en" ? "ja" : "en";
+                if (!i18n[next]) return; // ja not yet loaded
+                setLang(next);
+            }
+        </script>
     </head>
-    <body
-        style="background: var(--c-page); color: var(--c-text-primary)"
-        class="transition-colors duration-300"
-    >
+    <body class="bg-page text-text-primary">
         <!-- Header -->
         <header
-            class="flex items-center justify-between h-16 md:h-20 px-4 sm:px-8 lg:px-20 relative"
-            style="background: var(--c-page)"
+            class="flex items-center justify-between h-[72px] px-6 lg:px-20 bg-page"
         >
-            <div class="flex items-center gap-2 sm:gap-3">
-                <svg
-                    width="32"
-                    height="32"
-                    viewBox="0 0 36 36"
-                    class="sm:w-9 sm:h-9"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <defs>
-                        <linearGradient
-                            id="hdr-ball"
-                            x1="0"
-                            y1="0"
-                            x2="0"
-                            y2="1"
-                        >
-                            <stop offset="0%" stop-color="#FF3B30" />
-                            <stop offset="46%" stop-color="#FF3B30" />
-                            <stop offset="46%" stop-color="#222230" />
-                            <stop offset="54%" stop-color="#222230" />
-                            <stop offset="54%" stop-color="#0D0D14" />
-                            <stop offset="100%" stop-color="#0D0D14" />
-                        </linearGradient>
-                        <linearGradient
-                            id="hdr-gold"
-                            x1="0"
-                            y1="0"
-                            x2="1"
-                            y2="1"
-                        >
-                            <stop offset="0%" stop-color="#FFD700" />
-                            <stop offset="50%" stop-color="#B8860B" />
-                            <stop offset="100%" stop-color="#FFD700" />
-                        </linearGradient>
-                    </defs>
-                    <circle
-                        cx="18"
-                        cy="18"
-                        r="16"
-                        fill="url(#hdr-ball)"
-                        stroke="url(#hdr-gold)"
-                        stroke-width="2.5"
-                    />
-                    <polygon points="14,10 14,26 26,18" fill="white" />
-                </svg>
+            <div class="flex items-center gap-2.5">
+                <div
+                    class="w-8 h-8 rounded-md bg-gradient-to-br from-accent to-sky-500"
+                ></div>
                 <span
-                    class="font-sora text-sm sm:text-lg font-bold tracking-wide"
-                    style="color: var(--c-logo-text)"
-                    >POKÉ CHAMPIONS LOGGER</span
+                    class="font-inter text-base font-semibold tracking-wide text-white"
+                    >Poké Champions Logger</span
                 >
             </div>
             <!-- Desktop nav -->
-            <nav class="hidden md:flex items-center gap-10">
+            <nav class="hidden md:flex items-center gap-9">
                 <a
                     href="#features"
-                    class="nav-link text-sm font-medium transition-colors"
-                    style="color: var(--c-text-secondary)"
+                    class="text-sm font-medium text-text-muted hover:text-text-secondary transition-colors"
+                    data-i18n="nav.features"
                     >Features</a
                 >
                 <a
-                    href="#journey"
-                    class="nav-link text-sm font-medium transition-colors"
-                    style="color: var(--c-text-secondary)"
-                    >Journey</a
+                    href="#how"
+                    class="text-sm font-medium text-text-muted hover:text-text-secondary transition-colors"
+                    data-i18n="nav.how"
+                    >How It Works</a
                 >
                 <a
+                    href="https://github.com"
+                    class="text-sm font-medium text-text-muted hover:text-text-secondary transition-colors"
+                    data-i18n="nav.github"
+                    >GitHub</a
+                >
+                <button
+                    onclick="toggleLang()"
+                    id="langToggle"
+                    class="text-[12px] font-mono font-medium text-text-muted hover:text-text-secondary border border-border rounded-md px-2.5 py-1.5 transition-colors"
+                    aria-label="Toggle language"
+                >
+                    EN
+                </button>
+                <a
                     href="#download"
-                    class="nav-link text-sm font-medium transition-colors"
-                    style="color: var(--c-text-secondary)"
+                    class="bg-accent text-page text-[13px] font-semibold px-5 py-2 rounded-md hover:bg-accent-hover transition"
+                    data-i18n="nav.download"
                     >Download</a
                 >
-                <button
-                    onclick="toggleTheme()"
-                    class="theme-toggle"
-                    aria-label="Toggle theme"
-                >
-                    <svg
-                        class="icon-sun"
-                        viewBox="0 0 24 24"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    >
-                        <circle cx="12" cy="12" r="4" />
-                        <path d="M12 2v2" />
-                        <path d="M12 20v2" />
-                        <path d="m4.93 4.93 1.41 1.41" />
-                        <path d="m17.66 17.66 1.41 1.41" />
-                        <path d="M2 12h2" />
-                        <path d="M20 12h2" />
-                        <path d="m6.34 17.66-1.41 1.41" />
-                        <path d="m19.07 4.93-1.41 1.41" />
-                    </svg>
-                    <svg
-                        class="icon-moon"
-                        viewBox="0 0 24 24"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    >
-                        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
-                    </svg>
-                </button>
-                <a
-                    href="#download"
-                    class="bg-[#FF3B30] text-white text-sm font-semibold px-6 py-2.5 rounded-md hover:brightness-110 transition"
-                    >Download Free</a
-                >
             </nav>
-            <!-- Mobile controls -->
-            <div class="flex md:hidden items-center gap-2">
-                <button
-                    onclick="toggleTheme()"
-                    class="theme-toggle"
-                    aria-label="Toggle theme"
+            <!-- Mobile hamburger -->
+            <button
+                onclick="toggleMobileMenu()"
+                class="md:hidden w-10 h-10 rounded-lg border border-border flex items-center justify-center"
+                aria-label="Open menu"
+                id="hamburgerBtn"
+            >
+                <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="text-text-secondary"
                 >
-                    <svg
-                        class="icon-sun"
-                        viewBox="0 0 24 24"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    >
-                        <circle cx="12" cy="12" r="4" />
-                        <path d="M12 2v2" />
-                        <path d="M12 20v2" />
-                        <path d="m4.93 4.93 1.41 1.41" />
-                        <path d="m17.66 17.66 1.41 1.41" />
-                        <path d="M2 12h2" />
-                        <path d="M20 12h2" />
-                        <path d="m6.34 17.66-1.41 1.41" />
-                        <path d="m19.07 4.93-1.41 1.41" />
-                    </svg>
-                    <svg
-                        class="icon-moon"
-                        viewBox="0 0 24 24"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    >
-                        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
-                    </svg>
-                </button>
-                <button
-                    onclick="toggleMobileMenu()"
-                    class="w-10 h-10 rounded-lg flex items-center justify-center"
-                    style="
-                        border: 1px solid var(--c-border);
-                        background: var(--c-surface);
-                    "
-                    aria-label="Open menu"
-                    id="hamburgerBtn"
-                >
-                    <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        style="color: var(--c-text-secondary)"
-                    >
-                        <line x1="4" x2="20" y1="6" y2="6" />
-                        <line x1="4" x2="20" y1="12" y2="12" />
-                        <line x1="4" x2="20" y1="18" y2="18" />
-                    </svg>
-                </button>
-            </div>
+                    <line x1="4" x2="20" y1="6" y2="6" />
+                    <line x1="4" x2="20" y1="12" y2="12" />
+                    <line x1="4" x2="20" y1="18" y2="18" />
+                </svg>
+            </button>
             <!-- Mobile menu overlay -->
             <div
                 id="mobileMenu"
-                class="hidden fixed inset-0 z-50 md:hidden"
-                style="background: var(--c-page)"
+                class="hidden fixed inset-0 z-50 md:hidden bg-page"
             >
-                <div
-                    class="flex items-center justify-between h-16 px-4 sm:px-8"
-                >
-                    <div class="flex items-center gap-2">
-                        <svg
-                            width="32"
-                            height="32"
-                            viewBox="0 0 36 36"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <circle
-                                cx="18"
-                                cy="18"
-                                r="16"
-                                fill="url(#hdr-ball)"
-                                stroke="url(#hdr-gold)"
-                                stroke-width="2.5"
-                            />
-                            <polygon points="14,10 14,26 26,18" fill="white" />
-                        </svg>
+                <div class="flex items-center justify-between h-[72px] px-6">
+                    <div class="flex items-center gap-2.5">
+                        <div
+                            class="w-8 h-8 rounded-md bg-gradient-to-br from-accent to-sky-500"
+                        ></div>
                         <span
-                            class="font-sora text-sm font-bold tracking-wide"
-                            style="color: var(--c-logo-text)"
-                            >POKÉMON CHAMPIONS BATTLE LOGGER</span
+                            class="font-inter text-base font-semibold text-white"
+                            >Poké Champions Logger</span
                         >
                     </div>
                     <button
                         onclick="toggleMobileMenu()"
-                        class="w-10 h-10 rounded-lg flex items-center justify-center"
-                        style="
-                            border: 1px solid var(--c-border);
-                            background: var(--c-surface);
-                        "
+                        class="w-10 h-10 rounded-lg border border-border flex items-center justify-center"
                         aria-label="Close menu"
                     >
                         <svg
@@ -511,7 +397,7 @@
                             stroke-width="2"
                             stroke-linecap="round"
                             stroke-linejoin="round"
-                            style="color: var(--c-text-secondary)"
+                            class="text-text-secondary"
                         >
                             <path d="M18 6 6 18" />
                             <path d="m6 6 12 12" />
@@ -522,29 +408,36 @@
                     <a
                         href="#features"
                         onclick="toggleMobileMenu()"
-                        class="text-xl font-medium"
-                        style="color: var(--c-text-secondary)"
+                        class="text-xl font-medium text-text-secondary"
+                        data-i18n="nav.features"
                         >Features</a
                     >
                     <a
-                        href="#journey"
+                        href="#how"
                         onclick="toggleMobileMenu()"
-                        class="text-xl font-medium"
-                        style="color: var(--c-text-secondary)"
-                        >Journey</a
+                        class="text-xl font-medium text-text-secondary"
+                        data-i18n="nav.how"
+                        >How It Works</a
                     >
+                    <a
+                        href="https://github.com"
+                        onclick="toggleMobileMenu()"
+                        class="text-xl font-medium text-text-secondary"
+                        data-i18n="nav.github"
+                        >GitHub</a
+                    >
+                    <button
+                        onclick="toggleLang()"
+                        class="lang-toggle-mobile text-sm font-mono font-medium text-text-muted border border-border rounded-md px-4 py-2 mt-2"
+                    >
+                        EN
+                    </button>
                     <a
                         href="#download"
                         onclick="toggleMobileMenu()"
-                        class="text-xl font-medium"
-                        style="color: var(--c-text-secondary)"
+                        class="bg-accent text-page text-base font-semibold px-8 py-3 rounded-md mt-4"
+                        data-i18n="nav.download"
                         >Download</a
-                    >
-                    <a
-                        href="#download"
-                        onclick="toggleMobileMenu()"
-                        class="bg-[#FF3B30] text-white text-base font-semibold px-8 py-3 rounded-md hover:brightness-110 transition mt-4"
-                        >Download Free</a
                     >
                 </nav>
             </div>
@@ -552,62 +445,40 @@
 
         <!-- Hero -->
         <section
-            class="flex flex-col items-center pt-12 sm:pt-16 md:pt-24 pb-12 sm:pb-16 md:pb-20 px-4 sm:px-8 gap-6 sm:gap-8"
-            style="background: var(--hero-bg)"
+            class="flex flex-col items-center pt-16 md:pt-20 pb-12 md:pb-16 px-4 sm:px-8 gap-8 bg-page"
         >
+            <!-- Personal badge -->
             <div
-                class="flex items-center gap-2 rounded-full px-3 sm:px-4 py-1.5"
-                style="border: 1px solid var(--c-badge-border)"
+                class="flex items-center gap-2 rounded-full px-4 py-1.5 border border-border"
             >
-                <span class="w-2 h-2 rounded-full bg-[#FF3B30]"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
                 <span
-                    class="text-[#FF3B30] text-[10px] sm:text-[11px] font-bold tracking-[2px]"
-                    >NOW IN BETA — FREE DOWNLOAD</span
+                    class="font-mono text-[11px] font-medium text-text-muted tracking-wide"
+                    data-i18n="hero.badge"
+                    >A personal tool, shared freely</span
                 >
             </div>
-            <!-- SV Trial Period Banner -->
-            <div
-                class="flex items-center gap-2.5 rounded-lg px-4 sm:px-5 py-2 sm:py-2.5 max-w-[700px]"
-                style="border: 1px solid rgba(245, 158, 11, 0.3); background: rgba(245, 158, 11, 0.08)"
-            >
-                <span class="flex-shrink-0 rounded px-2 py-0.5 text-[10px] font-bold tracking-[1.5px] text-white bg-[#F59E0B]">SV TRIAL</span>
-                <span class="text-[11px] sm:text-[12px] leading-relaxed" style="color: var(--c-text-secondary)">
-                    現在は <strong style="color: var(--c-text-primary)">ポケモン SV（スカーレット・バイオレット）</strong> の対戦データで試験運用中です。チャンピオンズ発売後に正式対応予定。
-                </span>
-            </div>
             <h1
-                class="font-sora text-4xl sm:text-5xl md:text-6xl lg:text-[72px] font-bold text-center leading-none tracking-[-1px] md:tracking-[-2px] max-w-[900px] heading-text"
-                style="color: var(--c-text-primary)"
+                class="font-inter text-4xl sm:text-5xl md:text-[56px] font-bold text-center leading-[1.1] tracking-[-2px] max-w-[900px] text-white"
+                data-i18n="hero.headline"
             >
-                DOMINATE YOUR<br />BATTLE DATA
+                Record and analyze your<br />Pokémon battles. Automatically.
             </h1>
             <p
-                class="text-base sm:text-lg md:text-xl text-center leading-relaxed max-w-[700px]"
-                style="color: var(--c-text-secondary)"
+                class="text-base md:text-lg text-center leading-relaxed max-w-[700px] text-text-secondary"
+                data-i18n="hero.sub"
             >
-                ポケモン対戦を自動記録・分析。動画を入れるだけで、勝率・選出傾向を瞬時に可視化。<br />
-                現在は SV のランクバトルに対応。チャンピオンズにも対応予定。
+                Drop a video. Get every team, move, and result logged by AI.<br />
+                No manual input. No setup. Just your battle data, organized.
             </p>
             <div
-                class="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 w-full sm:w-auto"
+                class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto"
             >
                 <a
                     href="#download"
-                    class="btn-primary text-white font-semibold text-sm sm:text-base px-8 sm:px-10 py-3.5 sm:py-4 rounded-lg hover:brightness-110 transition w-full sm:w-auto text-center"
+                    class="flex items-center justify-center gap-2 bg-accent text-page font-semibold text-[15px] px-8 py-3.5 rounded-lg hover:bg-accent-hover transition w-full sm:w-auto"
                 >
-                    Download for Free
-                </a>
-                <a
-                    href="https://github.com"
-                    class="flex items-center justify-center gap-2.5 font-medium text-sm sm:text-base px-8 sm:px-10 py-3.5 sm:py-4 rounded-lg transition w-full sm:w-auto"
-                    style="
-                        border: 1px solid var(--c-border-strong);
-                        color: var(--c-text-secondary);
-                    "
-                >
-                    View on GitHub
                     <svg
-                        xmlns="http://www.w3.org/2000/svg"
                         width="18"
                         height="18"
                         viewBox="0 0 24 24"
@@ -617,21 +488,23 @@
                         stroke-linecap="round"
                         stroke-linejoin="round"
                     >
-                        <path d="M5 12h14" />
-                        <path d="m12 5 7 7-7 7" />
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="7 10 12 15 17 10" />
+                        <line x1="12" x2="12" y1="15" y2="3" />
                     </svg>
+                    <span data-i18n="hero.cta.primary">Download Free</span>
+                </a>
+                <a
+                    href="https://github.com"
+                    class="flex items-center justify-center gap-2 font-medium text-[15px] px-8 py-3.5 rounded-lg border border-border text-text-secondary hover:border-text-muted transition w-full sm:w-auto"
+                >
+                    <span data-i18n="hero.cta.secondary">View on GitHub</span>
                 </a>
             </div>
-            <div
-                class="w-[1000px] max-w-full mt-4"
-                style="
-                    filter: drop-shadow(0 20px 80px var(--c-screenshot-shadow));
-                "
-            >
+            <!-- Screenshot carousel -->
+            <div class="w-full max-w-[1000px] mt-4">
                 <div
-                    class="carousel"
-                    id="heroCarousel"
-                    style="border: 1px solid var(--c-border)"
+                    class="carousel border border-border rounded-xl shadow-2xl shadow-black/40"
                 >
                     <div class="carousel-track" id="carouselTrack">
                         <div class="carousel-slide">
@@ -640,8 +513,11 @@
                                 alt="Dashboard"
                                 loading="lazy"
                             />
-                            <div class="carousel-caption">
-                                Dashboard — 勝率・ランク・最近の対戦を一覧表示
+                            <div
+                                class="carousel-caption"
+                                data-i18n="carousel.dashboard"
+                            >
+                                Dashboard
                             </div>
                         </div>
                         <div class="carousel-slide">
@@ -650,9 +526,11 @@
                                 alt="Video Processing"
                                 loading="lazy"
                             />
-                            <div class="carousel-caption">
-                                Video Processing — YouTube URL やローカル動画を
-                                AI が自動解析
+                            <div
+                                class="carousel-caption"
+                                data-i18n="carousel.upload"
+                            >
+                                Video Processing
                             </div>
                         </div>
                         <div class="carousel-slide">
@@ -661,8 +539,11 @@
                                 alt="Analysis"
                                 loading="lazy"
                             />
-                            <div class="carousel-caption">
-                                Analysis — 勝率推移・ランク推移をグラフで可視化
+                            <div
+                                class="carousel-caption"
+                                data-i18n="carousel.analysis"
+                            >
+                                Analysis
                             </div>
                         </div>
                         <div class="carousel-slide">
@@ -671,205 +552,148 @@
                                 alt="Battle Detail"
                                 loading="lazy"
                             />
-                            <div class="carousel-caption">
-                                Battle Detail — 選出・対戦タイムラインを詳細表示
+                            <div
+                                class="carousel-caption"
+                                data-i18n="carousel.detail"
+                            >
+                                Battle Detail
                             </div>
                         </div>
                     </div>
                     <button
                         class="carousel-btn prev"
-                        onclick="carouselPrev()"
+                        onclick="moveCarousel(-1)"
                         aria-label="Previous"
                     >
-                        <svg
-                            width="18"
-                            height="18"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        >
-                            <path d="m15 18-6-6 6-6" />
-                        </svg>
+                        ‹
                     </button>
                     <button
                         class="carousel-btn next"
-                        onclick="carouselNext()"
+                        onclick="moveCarousel(1)"
                         aria-label="Next"
                     >
-                        <svg
-                            width="18"
-                            height="18"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        >
-                            <path d="m9 18 6-6-6-6" />
-                        </svg>
+                        ›
                     </button>
                 </div>
-                <div class="carousel-dots" id="carouselDots">
-                    <button
-                        class="carousel-dot active"
-                        onclick="carouselGo(0)"
-                    ></button>
-                    <button
-                        class="carousel-dot"
-                        onclick="carouselGo(1)"
-                    ></button>
-                    <button
-                        class="carousel-dot"
-                        onclick="carouselGo(2)"
-                    ></button>
-                    <button
-                        class="carousel-dot"
-                        onclick="carouselGo(3)"
-                    ></button>
-                </div>
+                <div class="carousel-dots" id="carouselDots"></div>
             </div>
         </section>
 
         <!-- Divider -->
-        <div
-            class="h-px w-full"
-            style="background: var(--divider-accent)"
-        ></div>
+        <div class="h-px bg-border"></div>
 
         <!-- Features -->
         <section
             id="features"
-            class="flex flex-col items-center py-16 md:py-24 px-4 sm:px-8 gap-10 md:gap-16"
-            style="background: var(--c-page)"
+            class="flex flex-col items-center py-16 md:py-20 px-4 sm:px-8 lg:px-20 gap-12 bg-page"
         >
-            <div class="flex flex-col items-center gap-4">
+            <div class="flex flex-col items-center gap-3">
                 <span
-                    class="text-[#FF3B30] text-[11px] font-bold tracking-[3px]"
+                    class="font-mono text-[11px] font-semibold text-accent tracking-[2px]"
+                    data-i18n="feat.label"
                     >FEATURES</span
                 >
                 <h2
-                    class="font-sora text-3xl sm:text-4xl md:text-5xl font-bold text-center leading-tight tracking-[-1px] md:tracking-[-1.5px] max-w-[700px] heading-text"
-                    style="color: var(--c-text-primary)"
+                    class="font-inter text-3xl md:text-4xl font-bold text-white text-center tracking-[-1px]"
+                    data-i18n="feat.title"
                 >
-                    Battle Intelligence,<br />Automated.
+                    Battle intelligence, automated.
                 </h2>
                 <p
-                    class="text-lg text-center"
-                    style="color: var(--c-text-secondary)"
+                    class="text-base text-text-muted text-center"
+                    data-i18n="feat.sub"
                 >
-                    動画をドロップするだけ。あとは AI がすべて解析します。
+                    Drop a video and let AI handle the rest.
                 </p>
             </div>
             <div
-                class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 w-full max-w-[1200px]"
+                class="grid grid-cols-1 md:grid-cols-3 gap-5 w-full max-w-[1200px]"
             >
                 <!-- Card 1 -->
                 <div
-                    class="rounded-xl p-8 flex flex-col gap-5"
-                    style="
-                        background: var(--c-surface);
-                        border: 1px solid var(--c-border);
-                    "
+                    class="flex flex-col gap-4 p-7 rounded-xl bg-surface border border-border"
                 >
                     <div
-                        class="w-12 h-12 rounded-[10px] flex items-center justify-center"
-                        style="background: var(--c-red-tint)"
+                        class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center"
                     >
                         <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
+                            width="20"
+                            height="20"
                             viewBox="0 0 24 24"
                             fill="none"
-                            stroke="#FF3B30"
+                            stroke="#22D3EE"
                             stroke-width="2"
                             stroke-linecap="round"
                             stroke-linejoin="round"
                         >
                             <path
-                                d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.934a.5.5 0 0 0-.777-.416L16 11"
+                                d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"
                             />
                             <rect x="2" y="6" width="14" height="12" rx="2" />
                         </svg>
                     </div>
                     <h3
-                        class="font-sora text-[22px] font-bold tracking-[-0.5px] heading-text"
-                        style="color: var(--c-text-primary)"
+                        class="font-inter text-lg font-semibold text-white"
+                        data-i18n="feat.1.title"
                     >
                         Auto Battle Detection
                     </h3>
                     <p
-                        class="text-sm leading-relaxed"
-                        style="color: var(--c-text-secondary)"
+                        class="text-sm text-text-muted leading-relaxed"
+                        data-i18n="feat.1.desc"
                     >
-                        YouTube URL
-                        やローカル動画を入力するだけ。対戦シーンを自動検出し、ポケモン・技・勝敗を抽出します。
+                        Paste a YouTube URL or drop a local file. AI detects
+                        battle scenes, identifies Pokémon, moves, and outcomes.
                     </p>
                 </div>
                 <!-- Card 2 -->
                 <div
-                    class="rounded-xl p-8 flex flex-col gap-5"
-                    style="
-                        background: var(--c-surface);
-                        border: 1px solid var(--c-border);
-                    "
+                    class="flex flex-col gap-4 p-7 rounded-xl bg-surface border border-border"
                 >
                     <div
-                        class="w-12 h-12 rounded-[10px] flex items-center justify-center"
-                        style="background: var(--c-cyan-tint)"
+                        class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center"
                     >
                         <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
+                            width="20"
+                            height="20"
                             viewBox="0 0 24 24"
                             fill="none"
-                            stroke="#00D4FF"
+                            stroke="#22D3EE"
                             stroke-width="2"
                             stroke-linecap="round"
                             stroke-linejoin="round"
                         >
-                            <line x1="12" x2="12" y1="20" y2="10" />
-                            <line x1="18" x2="18" y1="20" y2="4" />
-                            <line x1="6" x2="6" y1="20" y2="16" />
+                            <path d="M3 3v16a2 2 0 0 0 2 2h16" />
+                            <path d="m19 9-5 5-4-4-3 3" />
                         </svg>
                     </div>
                     <h3
-                        class="font-sora text-[22px] font-bold tracking-[-0.5px] heading-text"
-                        style="color: var(--c-text-primary)"
+                        class="font-inter text-lg font-semibold text-white"
+                        data-i18n="feat.2.title"
                     >
                         Deep Analytics
                     </h3>
                     <p
-                        class="text-sm leading-relaxed"
-                        style="color: var(--c-text-secondary)"
+                        class="text-sm text-text-muted leading-relaxed"
+                        data-i18n="feat.2.desc"
                     >
-                        勝率推移・選出傾向・ノックアウト統計をリアルタイムで可視化。弱点を見つけて戦略を磨きましょう。
+                        Win rate trends, team usage patterns, knockout stats —
+                        all visualized in real time. Find your weaknesses.
                     </p>
                 </div>
                 <!-- Card 3 -->
                 <div
-                    class="rounded-xl p-8 flex flex-col gap-5"
-                    style="
-                        background: var(--c-surface);
-                        border: 1px solid var(--c-border);
-                    "
+                    class="flex flex-col gap-4 p-7 rounded-xl bg-surface border border-border"
                 >
                     <div
-                        class="w-12 h-12 rounded-[10px] flex items-center justify-center"
-                        style="background: var(--c-green-tint)"
+                        class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center"
                     >
                         <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
+                            width="20"
+                            height="20"
                             viewBox="0 0 24 24"
                             fill="none"
-                            stroke="#32D74B"
+                            stroke="#22D3EE"
                             stroke-width="2"
                             stroke-linecap="round"
                             stroke-linejoin="round"
@@ -882,350 +706,284 @@
                         </svg>
                     </div>
                     <h3
-                        class="font-sora text-[22px] font-bold tracking-[-0.5px] heading-text"
-                        style="color: var(--c-text-primary)"
+                        class="font-inter text-lg font-semibold text-white"
+                        data-i18n="feat.3.title"
                     >
-                        8 Languages Support
+                        8 Languages
                     </h3>
                     <p
-                        class="text-sm leading-relaxed"
-                        style="color: var(--c-text-secondary)"
+                        class="text-sm text-text-muted leading-relaxed"
+                        data-i18n="feat.3.desc"
                     >
-                        日本語・英語・中国語・韓国語など8言語に対応。世界中のトレーナーが使える対戦ロガーです。
+                        Japanese, English, Chinese, Korean and more. Built to be
+                        shared with trainers around the world.
                     </p>
                 </div>
             </div>
         </section>
 
         <!-- Divider -->
-        <div
-            class="h-px w-full"
-            style="background: var(--divider-subtle)"
-        ></div>
+        <div class="h-px bg-border"></div>
 
-        <!-- User Journey -->
+        <!-- How It Works -->
         <section
-            id="journey"
-            class="flex flex-col items-center py-16 md:py-24 px-4 sm:px-8 gap-10 md:gap-16"
-            style="background: var(--c-elevated)"
+            id="how"
+            class="flex flex-col items-center py-16 md:py-20 px-4 sm:px-8 gap-12 bg-surface"
         >
-            <div class="flex flex-col items-center gap-4">
+            <div class="flex flex-col items-center gap-3">
                 <span
-                    class="text-[#00B4DC] text-[11px] font-bold tracking-[3px]"
-                    >YOUR BATTLE JOURNEY</span
+                    class="font-mono text-[11px] font-semibold text-accent tracking-[2px]"
+                    data-i18n="how.label"
+                    >HOW IT WORKS</span
                 >
                 <h2
-                    class="font-sora text-3xl sm:text-4xl md:text-5xl font-bold text-center leading-tight tracking-[-1px] md:tracking-[-1.5px] max-w-[700px] heading-text"
-                    style="color: var(--c-text-primary)"
+                    class="font-inter text-3xl md:text-4xl font-bold text-white text-center tracking-[-1px]"
+                    data-i18n="how.title"
                 >
-                    録画から分析まで、<br />シームレスに。
+                    From recording to insights, seamlessly.
                 </h2>
             </div>
             <div
-                class="flex flex-col md:flex-row items-center justify-center w-full max-w-[1280px] gap-2 md:gap-0"
+                class="flex flex-wrap justify-center items-center gap-2 md:gap-0 w-full max-w-[1200px]"
             >
                 <!-- Step 1 -->
-                <div class="flex flex-col items-center gap-4 w-[220px]">
-                    <div
-                        class="w-16 h-16 rounded-2xl flex items-center justify-center"
-                        style="
-                            background: var(--c-red-tint);
-                            border: 1px solid var(--c-red-border);
-                        "
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="28"
-                            height="28"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="#FF3B30"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        >
-                            <line x1="6" x2="10" y1="11" y2="11" />
-                            <line x1="8" x2="8" y1="9" y2="13" />
-                            <line x1="15" x2="15.01" y1="12" y2="12" />
-                            <line x1="18" x2="18.01" y1="10" y2="10" />
-                            <path
-                                d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.544-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"
-                            />
-                        </svg>
-                    </div>
+                <div
+                    class="flex flex-col items-center gap-3 w-[140px] md:w-[200px]"
+                >
                     <span
-                        class="font-sora text-base font-bold heading-text"
-                        style="color: var(--c-text-primary)"
-                        >対戦する</span
+                        class="font-mono text-2xl md:text-3xl font-bold text-accent"
+                        >01</span
                     >
-                    <p
-                        class="text-xs text-center leading-relaxed"
-                        style="color: var(--c-text-secondary)"
+                    <svg
+                        width="28"
+                        height="28"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#475569"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
                     >
-                        Switch でポケモン SV のランクバトルを対戦
-                    </p>
+                        <path d="m14.5 12.5-5-3v6z" />
+                        <circle cx="12" cy="12" r="10" />
+                    </svg>
+                    <span
+                        class="text-sm font-medium text-text-secondary text-center"
+                        data-i18n="how.1"
+                        >Play a battle</span
+                    >
                 </div>
                 <svg
-                    class="mx-1 flex-shrink-0 rotate-90 md:rotate-0"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
+                    class="hidden md:block text-border"
+                    width="20"
+                    height="20"
                     viewBox="0 0 24 24"
                     fill="none"
+                    stroke="currentColor"
                     stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    style="stroke: var(--c-arrow)"
                 >
                     <path d="m9 18 6-6-6-6" />
                 </svg>
                 <!-- Step 2 -->
-                <div class="flex flex-col items-center gap-4 w-[220px]">
-                    <div
-                        class="w-16 h-16 rounded-2xl flex items-center justify-center"
-                        style="
-                            background: var(--c-red-tint);
-                            border: 1px solid var(--c-red-border);
-                        "
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="28"
-                            height="28"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="#FF3B30"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        >
-                            <rect width="20" height="14" x="2" y="3" rx="2" />
-                            <line x1="8" x2="16" y1="21" y2="21" />
-                            <line x1="12" x2="12" y1="17" y2="21" />
-                        </svg>
-                    </div>
+                <div
+                    class="flex flex-col items-center gap-3 w-[140px] md:w-[200px]"
+                >
                     <span
-                        class="font-sora text-base font-bold heading-text"
-                        style="color: var(--c-text-primary)"
-                        >録画する</span
+                        class="font-mono text-2xl md:text-3xl font-bold text-accent"
+                        >02</span
                     >
-                    <p
-                        class="text-xs text-center leading-relaxed"
-                        style="color: var(--c-text-secondary)"
+                    <svg
+                        width="28"
+                        height="28"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#475569"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
                     >
-                        OBS 等でゲーム画面をキャプチャ
-                    </p>
+                        <rect
+                            x="2"
+                            y="2"
+                            width="20"
+                            height="20"
+                            rx="2.18"
+                            ry="2.18"
+                        />
+                        <line x1="7" x2="7" y1="2" y2="22" />
+                        <line x1="17" x2="17" y1="2" y2="22" />
+                        <line x1="2" x2="22" y1="12" y2="12" />
+                        <line x1="2" x2="7" y1="7" y2="7" />
+                        <line x1="2" x2="7" y1="17" y2="17" />
+                        <line x1="17" x2="22" y1="7" y2="7" />
+                        <line x1="17" x2="22" y1="17" y2="17" />
+                    </svg>
+                    <span
+                        class="text-sm font-medium text-text-secondary text-center"
+                        data-i18n="how.2"
+                        >Record or upload</span
+                    >
                 </div>
                 <svg
-                    class="mx-1 flex-shrink-0 rotate-90 md:rotate-0"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
+                    class="hidden md:block text-border"
+                    width="20"
+                    height="20"
                     viewBox="0 0 24 24"
                     fill="none"
+                    stroke="currentColor"
                     stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    style="stroke: var(--c-arrow)"
                 >
                     <path d="m9 18 6-6-6-6" />
                 </svg>
                 <!-- Step 3 -->
-                <div class="flex flex-col items-center gap-4 w-[220px]">
-                    <div
-                        class="w-16 h-16 rounded-2xl flex items-center justify-center"
-                        style="
-                            background: var(--c-cyan-tint);
-                            border: 1px solid var(--c-cyan-border);
-                        "
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="28"
-                            height="28"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="#00B4DC"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        >
-                            <path
-                                d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
-                            />
-                            <path
-                                d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
-                            />
-                        </svg>
-                    </div>
+                <div
+                    class="flex flex-col items-center gap-3 w-[140px] md:w-[200px]"
+                >
                     <span
-                        class="font-sora text-base font-bold heading-text"
-                        style="color: var(--c-text-primary)"
-                        >URL を貼る</span
+                        class="font-mono text-2xl md:text-3xl font-bold text-accent"
+                        >03</span
                     >
-                    <p
-                        class="text-xs text-center leading-relaxed"
-                        style="color: var(--c-text-secondary)"
+                    <svg
+                        width="28"
+                        height="28"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#475569"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
                     >
-                        YouTube URL or ローカルファイルをアプリに入力
-                    </p>
+                        <path
+                            d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
+                        />
+                        <path
+                            d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+                        />
+                    </svg>
+                    <span
+                        class="text-sm font-medium text-text-secondary text-center"
+                        data-i18n="how.3"
+                        >Paste the URL</span
+                    >
                 </div>
                 <svg
-                    class="mx-1 flex-shrink-0 rotate-90 md:rotate-0"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
+                    class="hidden md:block text-border"
+                    width="20"
+                    height="20"
                     viewBox="0 0 24 24"
                     fill="none"
+                    stroke="currentColor"
                     stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    style="stroke: var(--c-arrow)"
                 >
                     <path d="m9 18 6-6-6-6" />
                 </svg>
                 <!-- Step 4 -->
-                <div class="flex flex-col items-center gap-4 w-[220px]">
-                    <div
-                        class="w-16 h-16 rounded-2xl flex items-center justify-center"
-                        style="
-                            background: var(--c-cyan-tint);
-                            border: 1px solid var(--c-cyan-border);
-                        "
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="28"
-                            height="28"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="#00B4DC"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        >
-                            <rect width="16" height="16" x="4" y="4" rx="2" />
-                            <rect width="6" height="6" x="9" y="9" rx="1" />
-                            <path d="M15 2v2" />
-                            <path d="M15 20v2" />
-                            <path d="M2 15h2" />
-                            <path d="M2 9h2" />
-                            <path d="M20 15h2" />
-                            <path d="M20 9h2" />
-                            <path d="M9 2v2" />
-                            <path d="M9 20v2" />
-                        </svg>
-                    </div>
+                <div
+                    class="flex flex-col items-center gap-3 w-[140px] md:w-[200px]"
+                >
                     <span
-                        class="font-sora text-base font-bold heading-text"
-                        style="color: var(--c-text-primary)"
-                        >AI が自動解析</span
+                        class="font-mono text-2xl md:text-3xl font-bold text-accent"
+                        >04</span
                     >
-                    <p
-                        class="text-xs text-center leading-relaxed"
-                        style="color: var(--c-text-secondary)"
+                    <svg
+                        width="28"
+                        height="28"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#475569"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
                     >
-                        ポケモン認識・OCR・勝敗判定を自動実行
-                    </p>
+                        <rect x="4" y="4" width="16" height="16" rx="2" />
+                        <rect x="9" y="9" width="6" height="6" />
+                        <path d="M15 2v2" />
+                        <path d="M15 20v2" />
+                        <path d="M2 15h2" />
+                        <path d="M2 9h2" />
+                        <path d="M20 15h2" />
+                        <path d="M20 9h2" />
+                        <path d="M9 2v2" />
+                        <path d="M9 20v2" />
+                    </svg>
+                    <span
+                        class="text-sm font-medium text-text-secondary text-center"
+                        data-i18n="how.4"
+                        >AI analyzes</span
+                    >
                 </div>
                 <svg
-                    class="mx-1 flex-shrink-0 rotate-90 md:rotate-0"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
+                    class="hidden md:block text-border"
+                    width="20"
+                    height="20"
                     viewBox="0 0 24 24"
                     fill="none"
+                    stroke="currentColor"
                     stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    style="stroke: var(--c-arrow)"
                 >
                     <path d="m9 18 6-6-6-6" />
                 </svg>
                 <!-- Step 5 -->
-                <div class="flex flex-col items-center gap-4 w-[220px]">
-                    <div
-                        class="w-16 h-16 rounded-2xl flex items-center justify-center"
-                        style="
-                            background: var(--c-green-tint);
-                            border: 1px solid var(--c-green-border);
-                        "
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="28"
-                            height="28"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="#32D74B"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        >
-                            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
-                            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
-                            <path d="M4 22h16" />
-                            <path
-                                d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"
-                            />
-                            <path
-                                d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"
-                            />
-                            <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
-                        </svg>
-                    </div>
+                <div
+                    class="flex flex-col items-center gap-3 w-[140px] md:w-[200px]"
+                >
                     <span
-                        class="font-sora text-base font-bold heading-text"
-                        style="color: var(--c-text-primary)"
-                        >戦績を分析</span
+                        class="font-mono text-2xl md:text-3xl font-bold text-accent"
+                        >05</span
                     >
-                    <p
-                        class="text-xs text-center leading-relaxed"
-                        style="color: var(--c-text-secondary)"
+                    <svg
+                        width="28"
+                        height="28"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#475569"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
                     >
-                        勝率・選出傾向・技選択をダッシュボードで確認
-                    </p>
+                        <path d="M3 3v16a2 2 0 0 0 2 2h16" />
+                        <path d="m19 9-5 5-4-4-3 3" />
+                    </svg>
+                    <span
+                        class="text-sm font-medium text-text-secondary text-center"
+                        data-i18n="how.5"
+                        >Review your stats</span
+                    >
                 </div>
             </div>
         </section>
 
         <!-- Divider -->
-        <div
-            class="h-px w-full"
-            style="background: var(--divider-accent)"
-        ></div>
+        <div class="h-px bg-border"></div>
 
         <!-- Final CTA -->
         <section
             id="download"
-            class="flex flex-col items-center py-16 sm:py-20 md:py-28 px-4 sm:px-8 gap-6 sm:gap-8 md:gap-10"
-            style="background: var(--cta-bg)"
+            class="flex flex-col items-center py-20 md:py-24 px-4 sm:px-8 gap-8 bg-page"
         >
             <h2
-                class="font-sora text-3xl sm:text-4xl md:text-[56px] font-bold text-center leading-[1.05] tracking-[-1px] md:tracking-[-1.5px] max-w-[800px] heading-text"
-                style="color: var(--c-text-primary)"
+                class="font-inter text-4xl md:text-[44px] font-bold text-white text-center tracking-[-1.5px]"
+                data-i18n="cta.headline"
             >
-                READY TO<br />CLIMB THE RANKS?
+                Give it a try.
             </h2>
             <p
-                class="text-base sm:text-lg text-center leading-relaxed max-w-[600px]"
-                style="color: var(--c-text-secondary)"
+                class="text-base md:text-[17px] text-text-muted text-center leading-relaxed max-w-[500px]"
+                data-i18n="cta.sub"
             >
-                今すぐダウンロードして、データドリブンなバトルを始めましょう。<br />
-                完全無料。簡単セットアップ。あなたのデータはあなたのもの。
+                Free to use, and your data stays local.<br />
+                Built for trainers, by a trainer.
             </p>
             <div
-                class="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 w-full sm:w-auto"
+                class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto"
             >
                 <a
                     href="#"
-                    class="btn-primary flex items-center justify-center gap-3 text-white font-semibold text-base sm:text-lg px-8 sm:px-12 py-4 sm:py-[18px] rounded-lg hover:brightness-110 transition w-full sm:w-auto"
-                    style="box-shadow: 0 4px 30px var(--c-cta-shadow)"
+                    class="flex items-center justify-center gap-2.5 bg-accent text-page font-semibold text-base px-10 py-4 rounded-lg hover:bg-accent-hover transition w-full sm:w-auto"
                 >
                     <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
+                        width="18"
+                        height="18"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
@@ -1237,20 +995,15 @@
                         <polyline points="7 10 12 15 17 10" />
                         <line x1="12" x2="12" y1="15" y2="3" />
                     </svg>
-                    Download Now
+                    <span data-i18n="cta.primary">Download Now</span>
                 </a>
                 <a
                     href="https://github.com"
-                    class="flex items-center justify-center gap-3 font-medium text-base sm:text-lg px-8 sm:px-12 py-4 sm:py-[18px] rounded-lg transition w-full sm:w-auto"
-                    style="
-                        border: 1px solid var(--c-border-strong);
-                        color: var(--c-text-secondary);
-                    "
+                    class="flex items-center justify-center gap-2.5 font-medium text-base px-10 py-4 rounded-lg border border-border text-text-secondary hover:border-text-muted transition w-full sm:w-auto"
                 >
                     <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
+                        width="18"
+                        height="18"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
@@ -1262,181 +1015,186 @@
                             points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
                         />
                     </svg>
-                    Star on GitHub
+                    <span data-i18n="cta.secondary">Star on GitHub</span>
+                </a>
+            </div>
+            <!-- Social links -->
+            <div class="flex items-center gap-6 mt-2">
+                <a
+                    href="#"
+                    class="flex items-center gap-2 px-5 py-2.5 rounded-lg border border-border hover:border-text-muted transition"
+                >
+                    <svg
+                        width="22"
+                        height="22"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+                    </svg>
+                    <span
+                        class="font-semibold text-base text-white"
+                        data-i18n="cta.discord"
+                        >Discord</span
+                    >
+                </a>
+                <span class="text-2xl font-light text-border">|</span>
+                <a
+                    href="#"
+                    class="flex items-center gap-2 px-5 py-2.5 rounded-lg border border-border hover:border-text-muted transition"
+                >
+                    <svg
+                        width="22"
+                        height="22"
+                        viewBox="0 0 24 24"
+                        fill="white"
+                    >
+                        <path
+                            d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+                        />
+                    </svg>
+                    <span
+                        class="font-semibold text-base text-white"
+                        data-i18n="cta.x"
+                        >X (Twitter)</span
+                    >
                 </a>
             </div>
         </section>
 
         <!-- Divider -->
-        <div class="h-px w-full" style="background: var(--c-divider)"></div>
+        <div class="h-px bg-border"></div>
 
         <!-- Footer -->
-        <footer
-            class="pt-12 md:pt-16 pb-8 md:pb-10 px-4 sm:px-8 lg:px-20"
-            style="background: var(--c-footer)"
-        >
-            <div
-                class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 mb-8 md:mb-10"
-            >
-                <div class="flex flex-col gap-4 sm:col-span-2 lg:col-span-1">
-                    <div class="flex items-center gap-3">
-                        <svg
-                            width="28"
-                            height="28"
-                            viewBox="0 0 36 36"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <defs>
-                                <linearGradient
-                                    id="ftr-ball"
-                                    x1="0"
-                                    y1="0"
-                                    x2="0"
-                                    y2="1"
-                                >
-                                    <stop offset="0%" stop-color="#FF3B30" />
-                                    <stop offset="46%" stop-color="#FF3B30" />
-                                    <stop offset="46%" stop-color="#222230" />
-                                    <stop offset="54%" stop-color="#222230" />
-                                    <stop offset="54%" stop-color="#0D0D14" />
-                                    <stop offset="100%" stop-color="#0D0D14" />
-                                </linearGradient>
-                                <linearGradient
-                                    id="ftr-gold"
-                                    x1="0"
-                                    y1="0"
-                                    x2="1"
-                                    y2="1"
-                                >
-                                    <stop offset="0%" stop-color="#FFD700" />
-                                    <stop offset="50%" stop-color="#B8860B" />
-                                    <stop offset="100%" stop-color="#FFD700" />
-                                </linearGradient>
-                            </defs>
-                            <circle
-                                cx="18"
-                                cy="18"
-                                r="16"
-                                fill="url(#ftr-ball)"
-                                stroke="url(#ftr-gold)"
-                                stroke-width="2.5"
-                            />
-                            <polygon points="14,10 14,26 26,18" fill="white" />
-                        </svg>
+        <footer class="px-6 lg:px-20 pt-12 pb-8 bg-[#060A14]">
+            <div class="flex flex-col md:flex-row justify-between gap-10 mb-8">
+                <!-- Brand -->
+                <div class="flex flex-col gap-3 max-w-[320px]">
+                    <div class="flex items-center gap-2">
+                        <div
+                            class="w-6 h-6 rounded bg-gradient-to-br from-accent to-sky-500"
+                        ></div>
                         <span
-                            class="font-sora text-sm font-bold tracking-wide"
-                            style="color: var(--c-logo-text)"
-                            >POKÉMON CHAMPIONS BATTLE LOGGER</span
+                            class="font-inter text-[13px] font-semibold text-white"
+                            >Poké Champions Logger</span
                         >
                     </div>
                     <p
-                        class="text-[13px] leading-relaxed"
-                        style="color: var(--c-text-muted)"
+                        class="text-xs text-text-dim leading-relaxed"
+                        data-i18n="footer.tagline"
                     >
-                        ポケモン対戦データを自動記録・分析する<br />ツール。
+                        A battle logger for<br />Pokémon competitive play.
                     </p>
                 </div>
-                <div class="flex flex-col gap-4">
-                    <span
-                        class="text-[11px] font-bold tracking-[2px]"
-                        style="color: var(--c-text-muted)"
-                        >PRODUCT</span
-                    >
-                    <a
-                        href="#features"
-                        class="text-sm transition-colors"
-                        style="color: var(--c-text-secondary)"
-                        >Features</a
-                    >
-                    <a
-                        href="#download"
-                        class="text-sm transition-colors"
-                        style="color: var(--c-text-secondary)"
-                        >Download</a
-                    >
-                    <a
-                        href="#"
-                        class="text-sm transition-colors"
-                        style="color: var(--c-text-secondary)"
-                        >Changelog</a
-                    >
-                </div>
-                <div class="flex flex-col gap-4">
-                    <span
-                        class="text-[11px] font-bold tracking-[2px]"
-                        style="color: var(--c-text-muted)"
-                        >DEVELOPER</span
-                    >
-                    <a
-                        href="https://github.com"
-                        class="text-sm transition-colors"
-                        style="color: var(--c-text-secondary)"
-                        >GitHub</a
-                    >
-                    <a
-                        href="#"
-                        class="text-sm transition-colors"
-                        style="color: var(--c-text-secondary)"
-                        >Documentation</a
-                    >
-                    <a
-                        href="#"
-                        class="text-sm transition-colors"
-                        style="color: var(--c-text-secondary)"
-                        >Contributing</a
-                    >
-                </div>
-                <div class="flex flex-col gap-4">
-                    <span
-                        class="text-[11px] font-bold tracking-[2px]"
-                        style="color: var(--c-text-muted)"
-                        >COMMUNITY</span
-                    >
-                    <a
-                        href="#"
-                        class="text-sm transition-colors"
-                        style="color: var(--c-text-secondary)"
-                        >Twitter / X</a
-                    >
-                    <a
-                        href="#"
-                        class="text-sm transition-colors"
-                        style="color: var(--c-text-secondary)"
-                        >Discord</a
-                    >
-                    <a
-                        href="#"
-                        class="text-sm transition-colors"
-                        style="color: var(--c-text-secondary)"
-                        >Report Bug</a
-                    >
+                <!-- Columns -->
+                <div class="flex gap-16 md:gap-20 flex-wrap">
+                    <div class="flex flex-col gap-3">
+                        <span
+                            class="font-mono text-[10px] font-semibold text-text-dim tracking-[2px]"
+                            data-i18n="footer.col1.title"
+                            >PRODUCT</span
+                        >
+                        <a
+                            href="#features"
+                            class="text-[13px] text-text-muted hover:text-text-secondary transition-colors"
+                            data-i18n="footer.col1.1"
+                            >Features</a
+                        >
+                        <a
+                            href="#download"
+                            class="text-[13px] text-text-muted hover:text-text-secondary transition-colors"
+                            data-i18n="footer.col1.2"
+                            >Download</a
+                        >
+                        <a
+                            href="#"
+                            class="text-[13px] text-text-muted hover:text-text-secondary transition-colors"
+                            data-i18n="footer.col1.3"
+                            >Changelog</a
+                        >
+                    </div>
+                    <div class="flex flex-col gap-3">
+                        <span
+                            class="font-mono text-[10px] font-semibold text-text-dim tracking-[2px]"
+                            data-i18n="footer.col2.title"
+                            >LINKS</span
+                        >
+                        <a
+                            href="https://github.com"
+                            class="text-[13px] text-text-muted hover:text-text-secondary transition-colors"
+                            data-i18n="footer.col2.1"
+                            >GitHub</a
+                        >
+                        <a
+                            href="#"
+                            class="text-[13px] text-text-muted hover:text-text-secondary transition-colors"
+                            data-i18n="footer.col2.2"
+                            >Documentation</a
+                        >
+                        <a
+                            href="#"
+                            class="text-[13px] text-text-muted hover:text-text-secondary transition-colors"
+                            data-i18n="footer.col2.3"
+                            >Changelog</a
+                        >
+                    </div>
+                    <div class="flex flex-col gap-3">
+                        <span
+                            class="font-mono text-[10px] font-semibold text-text-dim tracking-[2px]"
+                            data-i18n="footer.col3.title"
+                            >COMMUNITY</span
+                        >
+                        <a
+                            href="#"
+                            class="text-[13px] text-text-muted hover:text-text-secondary transition-colors"
+                            data-i18n="footer.col3.1"
+                            >Twitter / X</a
+                        >
+                        <a
+                            href="#"
+                            class="text-[13px] text-text-muted hover:text-text-secondary transition-colors"
+                            data-i18n="footer.col3.2"
+                            >Discord</a
+                        >
+                        <a
+                            href="#"
+                            class="text-[13px] text-text-muted hover:text-text-secondary transition-colors"
+                            data-i18n="footer.col3.3"
+                            >Report Bug</a
+                        >
+                    </div>
                 </div>
             </div>
+            <div class="h-px bg-border mb-6"></div>
             <div
-                class="h-px w-full mb-6 md:mb-8"
-                style="background: var(--c-divider)"
-            ></div>
-            <div
-                class="flex flex-col sm:flex-row justify-between items-center gap-2"
+                class="flex flex-col sm:flex-row justify-between items-center gap-4"
             >
-                <span class="text-xs" style="color: var(--c-text-muted)"
-                    >&copy; 2026 Pokémon Champions Battle Logger. All rights
-                    reserved.</span
+                <span class="text-[11px] text-text-dim" data-i18n="footer.copy"
+                    >© 2026 Poké Champions Logger</span
                 >
-                <span class="text-xs" style="color: var(--c-text-muted)"
-                    >Made with ♥ for Pokémon Trainers</span
-                >
+                <div class="flex items-center gap-6">
+                    <a
+                        href="#"
+                        class="text-sm text-accent hover:text-accent-hover transition-colors"
+                        data-i18n="footer.privacy"
+                        >Privacy Policy</a
+                    >
+                    <a
+                        href="#"
+                        class="text-sm text-accent hover:text-accent-hover transition-colors"
+                        data-i18n="footer.terms"
+                        >Terms of Use</a
+                    >
+                </div>
             </div>
         </footer>
 
         <script>
-            function toggleTheme() {
-                const html = document.documentElement;
-                const current = html.getAttribute("data-theme");
-                const next = current === "dark" ? "light" : "dark";
-                html.setAttribute("data-theme", next);
-                localStorage.setItem("theme", next);
-            }
+            // Mobile menu
             function toggleMobileMenu() {
                 const menu = document.getElementById("mobileMenu");
                 menu.classList.toggle("hidden");
@@ -1444,62 +1202,42 @@
                     ? ""
                     : "hidden";
             }
-            // Restore saved preference
-            const saved = localStorage.getItem("theme");
-            if (saved)
-                document.documentElement.setAttribute("data-theme", saved);
 
             // Carousel
-            (function () {
-                let idx = 0;
-                const total = 4;
-                const track = document.getElementById("carouselTrack");
-                const dots = document.querySelectorAll(".carousel-dot");
-                const carousel = document.getElementById("heroCarousel");
-                let timer;
+            let currentSlide = 0;
+            const track = document.getElementById("carouselTrack");
+            const slides = track ? track.children : [];
+            const dotsContainer = document.getElementById("carouselDots");
 
-                function update() {
-                    track.style.transform = "translateX(-" + idx * 100 + "%)";
-                    dots.forEach((d, i) =>
-                        d.classList.toggle("active", i === idx),
-                    );
+            function initCarousel() {
+                if (!dotsContainer || slides.length === 0) return;
+                for (let i = 0; i < slides.length; i++) {
+                    const dot = document.createElement("button");
+                    dot.className = "carousel-dot" + (i === 0 ? " active" : "");
+                    dot.onclick = () => goToSlide(i);
+                    dotsContainer.appendChild(dot);
                 }
+            }
 
-                function startAuto() {
-                    timer = setInterval(function () {
-                        idx = (idx + 1) % total;
-                        update();
-                    }, 5000);
-                }
+            function goToSlide(n) {
+                currentSlide = n;
+                if (track) track.style.transform = `translateX(-${n * 100}%)`;
+                document.querySelectorAll(".carousel-dot").forEach((d, i) => {
+                    d.className = "carousel-dot" + (i === n ? " active" : "");
+                });
+            }
 
-                function stopAuto() {
-                    clearInterval(timer);
-                }
+            function moveCarousel(dir) {
+                let next = currentSlide + dir;
+                if (next < 0) next = slides.length - 1;
+                if (next >= slides.length) next = 0;
+                goToSlide(next);
+            }
 
-                window.carouselNext = function () {
-                    stopAuto();
-                    idx = (idx + 1) % total;
-                    update();
-                    startAuto();
-                };
-                window.carouselPrev = function () {
-                    stopAuto();
-                    idx = (idx - 1 + total) % total;
-                    update();
-                    startAuto();
-                };
-                window.carouselGo = function (i) {
-                    stopAuto();
-                    idx = i;
-                    update();
-                    startAuto();
-                };
+            // Auto-advance carousel
+            setInterval(() => moveCarousel(1), 5000);
 
-                carousel.addEventListener("mouseenter", stopAuto);
-                carousel.addEventListener("mouseleave", startAuto);
-
-                startAuto();
-            })();
+            initCarousel();
         </script>
     </body>
 </html>
