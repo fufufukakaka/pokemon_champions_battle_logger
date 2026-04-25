@@ -41,15 +41,20 @@
 4. The app opens in your browser at `http://127.0.0.1:8000`
 5. Follow the initial setup wizard (choose language, enter trainer name)
 
+### Windows Users
+
+Windows SmartScreen may display a **"Windows protected your PC"** warning when launching the app for the first time. This is because the executable is not code-signed (Windows code-signing certificates are prohibitively expensive for an open-source project).
+
+To run the app:
+
+1. Click **More info** on the warning dialog
+2. Click **Run anyway**
+
+Some antivirus software may also flag the executable as a false positive. If this happens, please add an exception for `poke_champions_logger.exe`.
+
 ### macOS Users
 
-macOS may show a security warning for unsigned apps. To bypass:
-
-```bash
-xattr -cr /path/to/poke_champions_logger
-```
-
-Or right-click the app and select "Open" instead of double-clicking.
+The macOS build is code-signed and notarized by Apple, so it should launch without security warnings. If Gatekeeper still complains (e.g. on older releases), right-click the app and select **Open** instead of double-clicking.
 
 ## Screenshots
 
