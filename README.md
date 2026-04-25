@@ -30,7 +30,6 @@
 |----------|------|
 | Windows (x64) | `poke-champions-logger-windows-x64.zip` |
 | macOS (Apple Silicon) | `poke-champions-logger-macos-arm64.tar.gz` |
-| macOS (Intel) | `poke-champions-logger-macos-x64.tar.gz` |
 | Linux (x64) | `poke-champions-logger-linux-x64.tar.gz` |
 
 ### Quick Start
