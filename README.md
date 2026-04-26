@@ -57,9 +57,29 @@ The macOS build is code-signed and notarized by Apple, so it should launch witho
 
 ## Screenshots
 
-<!-- TODO: Add screenshots -->
+### Dashboard
 
-*Coming soon*
+<p align="center">
+  <img src="docs/dashboard.png" alt="Dashboard" width="800">
+</p>
+
+### Video Processing
+
+<p align="center">
+  <img src="docs/upload_and_process_video.png" alt="Video Processing" width="800">
+</p>
+
+### Analysis
+
+<p align="center">
+  <img src="docs/analysis.png" alt="Analysis" width="800">
+</p>
+
+### Battle Detail
+
+<p align="center">
+  <img src="docs/battle_detail.png" alt="Battle Detail" width="800">
+</p>
 
 ## Requirements
 
