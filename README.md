@@ -28,17 +28,16 @@
 
 | Platform | File |
 |----------|------|
-| Windows (x64) | `poke-champions-logger-windows-x64.zip` |
-| macOS (Apple Silicon) | `poke-champions-logger-macos-arm64.tar.gz` |
-| Linux (x64) | `poke-champions-logger-linux-x64.tar.gz` |
+| Windows (x64) | `poke-champions-logger-windows-x64-setup.exe` |
+| macOS (Apple Silicon) | `poke-champions-logger-macos-arm64.dmg` |
+| Linux (x64) | `poke-champions-logger-linux-x64.deb` |
 
 ### Quick Start
 
-1. Download the archive for your platform from [Releases](https://github.com/fufufukakaka/pokemon_champions_battle_logger/releases/latest)
-2. Extract the archive
-3. Run `poke_champions_logger` (or `poke_champions_logger.exe` on Windows)
-4. The app opens in your browser at `http://127.0.0.1:8000`
-5. Follow the initial setup wizard (choose language, enter trainer name)
+1. Download the installer for your platform from [Releases](https://github.com/fufufukakaka/pokemon_champions_battle_logger/releases/latest)
+2. Install / open the app (see platform notes below)
+3. The app opens in your browser at `http://127.0.0.1:8000`
+4. Follow the initial setup wizard (choose language, enter trainer name)
 
 ### Windows Users
 
@@ -53,7 +52,25 @@ Some antivirus software may also flag the executable as a false positive. If thi
 
 ### macOS Users
 
-The macOS build is code-signed and notarized by Apple, so it should launch without security warnings. If Gatekeeper still complains (e.g. on older releases), right-click the app and select **Open** instead of double-clicking.
+The macOS build is code-signed with a Developer ID certificate, but **not notarized by Apple** (Apple's notary service has been intermittently failing to process this app's bundle structure). Gatekeeper will therefore display a warning the first time you launch the app.
+
+#### First-launch instructions (one-time only)
+
+1. Open the downloaded `.dmg` and drag **Pokemon Champions Battle Logger.app** into your **Applications** folder
+2. Open Finder, navigate to **Applications**
+3. **Right-click** (or Control-click) the app, then choose **Open** from the context menu
+4. A dialog appears: *"macOS cannot verify the developer of …"* — click **Open**
+5. The app launches; macOS remembers your decision and opens normally on subsequent launches
+
+If macOS Sequoia (15) or later **does not show an "Open" option** in the right-click dialog, do this instead:
+
+1. Try to launch the app once (it will be blocked)
+2. Open **System Settings → Privacy & Security**
+3. Scroll to the **Security** section — you'll see a message about Pokemon Champions Battle Logger being blocked
+4. Click **Open Anyway**, then confirm with your Touch ID / password
+5. Re-launch the app
+
+The app's signature is fully verifiable with `codesign --verify` and traces back to the registered Apple Developer account `Yusuke Fukasawa (D8NPWYTRLD)`. Notarization will be re-enabled in a future release once the upstream issue is resolved.
 
 ## Screenshots
 
