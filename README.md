@@ -8,112 +8,122 @@
 </p>
 
 <p align="center">
-  <strong>Dominate Your Battle Data.</strong><br>
-  Pokemon Champions Battle Logger automatically records and analyzes your battles from video.
+  <strong>対戦データを支配せよ。</strong><br>
+  動画から自動で対戦を記録・解析するツールです。
 </p>
 
 ---
 
-## Features
+## 機能
 
-- **Auto Battle Detection** - Drop a YouTube URL or local video file, and AI automatically detects battles, recognizes Pokemon, reads moves, and determines win/loss
-- **Deep Analytics** - Win rate trends, team selection stats, knockout statistics, all visualized in real-time dashboards
-- **8 Languages** - Japanese, English, Traditional Chinese, Simplified Chinese, Korean, French, Spanish, Italian, German
-- **100% Local** - Your data stays on your machine. No cloud, no accounts, no tracking
-- **Free & Open Source**
+- **自動バトル検出** — YouTube URL またはローカル動画ファイルを入力すれば、AI が自動的にバトルを検出し、ポケモン認識・技解析・勝敗判定を行います
+- **詳細な分析** — 勝率推移、選出統計、KO 統計などをリアルタイム ダッシュボードで可視化
+- **8 言語対応** — 日本語、英語、繁体中文、簡体中文、韓国語、フランス語、スペイン語、イタリア語、ドイツ語
+- **100% ローカル** — データは全てお手元のマシンに保存されます。クラウド連携、アカウント登録、トラッキングは一切ありません
+- **無料 & オープンソース**
 
-## Download
+## ダウンロード
 
-> **Latest Release**: [Download here](https://github.com/fufufukakaka/pokemon_champions_battle_logger/releases/latest)
+> **最新リリース**: [こちらからダウンロード](https://github.com/fufufukakaka/pokemon_champions_battle_logger/releases/latest)
 
-| Platform | File |
+| プラットフォーム | ファイル |
 |----------|------|
 | Windows (x64) | `poke-champions-logger-windows-x64-setup.exe` |
 | macOS (Apple Silicon) | `poke-champions-logger-macos-arm64.dmg` |
 | Linux (x64) | `poke-champions-logger-linux-x64.deb` |
 
-### Quick Start
+### クイックスタート
 
-1. Download the installer for your platform from [Releases](https://github.com/fufufukakaka/pokemon_champions_battle_logger/releases/latest)
-2. Install / open the app (see platform notes below)
-3. The app opens in your browser at `http://127.0.0.1:8000`
-4. Follow the initial setup wizard (choose language, enter trainer name)
+1. ご利用のプラットフォームのインストーラを [Releases](https://github.com/fufufukakaka/pokemon_champions_battle_logger/releases/latest) からダウンロード
+2. インストール / アプリを起動 (プラットフォーム別の注意事項は下記参照)
+3. ブラウザで `http://127.0.0.1:8000` が自動的に開きます
+4. 初期設定ウィザードに従って設定 (言語選択、トレーナー名入力)
 
-### Windows Users
+### Windows ユーザの方へ
 
-Windows SmartScreen may display a **"Windows protected your PC"** warning when launching the app for the first time. This is because the executable is not code-signed (Windows code-signing certificates are prohibitively expensive for an open-source project).
+初回起動時に Windows SmartScreen が **「Windows によって PC が保護されました」** という警告を表示する場合があります。これは実行ファイルがコード署名されていないためです (Windows のコード署名証明書はオープンソースプロジェクトにとって高額すぎるため見送っています)。
 
-To run the app:
+アプリを起動するには:
 
-1. Click **More info** on the warning dialog
-2. Click **Run anyway**
+1. 警告ダイアログの **「詳細情報」** をクリック
+2. **「実行」** をクリック
 
-Some antivirus software may also flag the executable as a false positive. If this happens, please add an exception for `poke_champions_logger.exe`.
+一部のアンチウイルスソフトが誤検出としてフラグを立てる場合もあります。その際は `poke_champions_logger.exe` を例外として追加してください。
 
-### macOS Users
+### macOS ユーザの方へ
 
-The macOS build is code-signed with a Developer ID certificate, but **not notarized by Apple** (Apple's notary service has been intermittently failing to process this app's bundle structure). Gatekeeper will therefore display a warning the first time you launch the app.
+macOS 版は Developer ID 証明書でコード署名されていますが、**Apple によるノータライズは現状未実施**です (Apple のノータリーサービスがこのアプリのバンドル構造に対して断続的に処理失敗している既知の上流不具合のため — [tauri-apps/tauri#11992](https://github.com/tauri-apps/tauri/issues/11992) を参照)。そのため初回起動時に Gatekeeper の警告が表示されます。
 
-#### First-launch instructions (one-time only)
+> **⚠️ 重要 — macOS Sequoia / Tahoe をご利用の方へ**
+>
+> 初回起動時の警告ダイアログには **「ゴミ箱に入れる」** と **「完了」** の2つのボタンが表示されます。**「ゴミ箱に入れる」を絶対にクリックしないでください** — インストールしたばかりのアプリが削除されてしまいます。**「完了」** を押した上で、下記の手順に従ってシステム設定からアプリの実行を許可してください。
 
-1. Open the downloaded `.dmg` and drag **Pokemon Champions Battle Logger.app** into your **Applications** folder
-2. Open Finder, navigate to **Applications**
-3. **Right-click** (or Control-click) the app, then choose **Open** from the context menu
-4. A dialog appears: *"macOS cannot verify the developer of …"* — click **Open**
-5. The app launches; macOS remembers your decision and opens normally on subsequent launches
+#### 初回起動の手順 (一度だけ)
 
-If macOS Sequoia (15) or later **does not show an "Open" option** in the right-click dialog, do this instead:
+##### macOS Sequoia 15 / Tahoe 26 以降
 
-1. Try to launch the app once (it will be blocked)
-2. Open **System Settings → Privacy & Security**
-3. Scroll to the **Security** section — you'll see a message about Pokemon Champions Battle Logger being blocked
-4. Click **Open Anyway**, then confirm with your Touch ID / password
-5. Re-launch the app
+1. ダウンロードした `.dmg` を開き、**Pokemon Champions Battle Logger.app** を **アプリケーション** フォルダにドラッグ
+2. アプリを起動すると警告ダイアログが表示されるので **「完了」** をクリック (※ **「ゴミ箱に入れる」は絶対にクリックしないこと**)
+3. **システム設定 → プライバシーとセキュリティ** を開く
+4. **セキュリティ** セクションまでスクロールすると、*「"Pokemon Champions Battle Logger" は…マルウェアが含まれていないことを検証できなかったため、使用がブロックされました」* と表示されています
+5. **「このまま開く」** をクリックし、Touch ID またはパスワードで承認
+6. もう一度アプリを起動すると、今度は **「開く」** ボタン付きのダイアログが表示されます — クリックして起動
+7. アプリが起動します。次回以降は通常通り起動できます
 
-The app's signature is fully verifiable with `codesign --verify` and traces back to the registered Apple Developer account `Yusuke Fukasawa (D8NPWYTRLD)`. Notarization will be re-enabled in a future release once the upstream issue is resolved.
+##### macOS Sonoma 14 以前
 
-## Screenshots
+1. ダウンロードした `.dmg` を開き、**Pokemon Champions Battle Logger.app** を **アプリケーション** フォルダにドラッグ
+2. Finder で **アプリケーション** に移動
+3. アプリを **右クリック** (または Control + クリック) し、コンテキストメニューから **「開く」** を選択
+4. *「開発元を確認できないため…」* というダイアログが表示されたら **「開く」** をクリック
+5. アプリが起動します。次回以降は通常通り起動できます
 
-### Dashboard
+アプリの署名は `codesign --verify` で完全に検証可能で、登録済みの Apple Developer アカウント `Yusuke Fukasawa (D8NPWYTRLD)` まで遡ることができます。ノータライズは上流の問題が解決され次第、将来のリリースで再有効化する予定です。
+
+## スクリーンショット
+
+### ダッシュボード
 
 <p align="center">
   <img src="docs/dashboard.png" alt="Dashboard" width="800">
 </p>
 
-### Video Processing
+### 動画処理
 
 <p align="center">
   <img src="docs/upload_and_process_video.png" alt="Video Processing" width="800">
 </p>
 
-### Analysis
+### 分析
 
 <p align="center">
   <img src="docs/analysis.png" alt="Analysis" width="800">
 </p>
 
-### Battle Detail
+### バトル詳細
 
 <p align="center">
   <img src="docs/battle_detail.png" alt="Battle Detail" width="800">
 </p>
 
-## Requirements
+## 動作環境
 
-- **Video input**: 1920x1080 (1080p) 30fps video
-- **Format**: Single battles in Pokemon Champions
-- **Storage**: ~500MB for the app + model files downloaded on first launch
+- **動画入力**: 1920x1080 (1080p) 30fps の動画
+- **形式**: ポケモンチャンピオンズのシングルバトル
+- **ストレージ**: アプリ本体と初回起動時にダウンロードされるモデルファイルで約 500MB
 
-## Community
+## コミュニティ
 
-- [Report a Bug](https://github.com/fufufukakaka/pokemon_champions_battle_logger/issues/new?template=bug_report.yml)
-- [Request a Feature](https://github.com/fufufukakaka/pokemon_champions_battle_logger/issues/new?template=feature_request.yml)
+- [バグ報告](https://github.com/fufufukakaka/pokemon_champions_battle_logger/issues/new?template=bug_report.yml)
+- [機能リクエスト](https://github.com/fufufukakaka/pokemon_champions_battle_logger/issues/new?template=feature_request.yml)
 <!-- - [Discord](https://discord.gg/XXXXX) -->
 
-## License
+## ライセンス
 
-MIT License. See [LICENSE](LICENSE) for details.
+MIT License。詳細は [LICENSE](LICENSE) を参照してください。
 
 ---
 
-<p align="center">Made with love for Pokemon Trainers</p>
+> 🌐 **English version**: see [README.en.md](README.en.md)
+
+<p align="center">ポケモントレーナーのために、愛をこめて</p>
