@@ -118,12 +118,6 @@ macOS 版は Developer ID 証明書でコード署名されていますが、**A
 - [機能リクエスト](https://github.com/fufufukakaka/pokemon_champions_battle_logger/issues/new?template=feature_request.yml)
 <!-- - [Discord](https://discord.gg/XXXXX) -->
 
-## ライセンス
-
-MIT License。詳細は [LICENSE](LICENSE) を参照してください。
-
 ---
 
 > 🌐 **English version**: see [README.en.md](README.en.md)
-
-<p align="center">ポケモントレーナーのために、愛をこめて</p>
