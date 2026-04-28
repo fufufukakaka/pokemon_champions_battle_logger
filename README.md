@@ -8,8 +8,8 @@
 </p>
 
 <p align="center">
-  <strong>対戦データを支配せよ。</strong><br>
-  動画から自動で対戦を記録・解析するツールです。
+  <strong>Dominate Your Battle Data</strong><br>
+  ポケモンの対戦動画から自動で記録・解析を行うツールです。
 </p>
 
 ---
