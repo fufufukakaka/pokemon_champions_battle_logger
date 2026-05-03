@@ -4,7 +4,7 @@
   <img src="https://img.shields.io/github/v/release/fufufukakaka/pokemon_champions_battle_logger?style=flat-square&color=FF3B30" alt="Release">
   <img src="https://img.shields.io/github/downloads/fufufukakaka/pokemon_champions_battle_logger/total?style=flat-square&color=00B4DC" alt="Downloads">
   <img src="https://img.shields.io/badge/platforms-Windows%20%7C%20macOS%20%7C%20Linux-32D74B?style=flat-square" alt="Platforms">
-  <img src="https://img.shields.io/badge/license-MIT-555?style=flat-square" alt="License">
+  <img src="https://img.shields.io/badge/license-Proprietary-555?style=flat-square" alt="License">
 </p>
 
 <p align="center">
@@ -22,7 +22,7 @@
 - **Deep Analytics** - Win rate trends, team selection stats, knockout statistics, all visualized in real-time dashboards
 - **8 Languages** - Japanese, English, Traditional Chinese, Simplified Chinese, Korean, French, Spanish, Italian, German
 - **100% Local** - Your data stays on your machine. No cloud, no accounts, no tracking
-- **Free & Open Source**
+- **Free for Personal Use**
 
 ## Download
 
@@ -122,7 +122,11 @@ The app's signature is fully verifiable with `codesign --verify` and traces back
 
 ## License
 
-MIT License. See [LICENSE](LICENSE) for details.
+This software is released under a proprietary **All Rights Reserved** license.
+
+You are permitted to download the Software from the official distribution channel (GitHub Releases) and use it for **personal, non-commercial purposes**. **Redistribution, modification, reverse engineering, and commercial use are prohibited.**
+
+See [LICENSE](LICENSE) for full terms.
 
 ---
 

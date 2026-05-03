@@ -1,21 +1,94 @@
-MIT License
+Pokemon Champions Battle Logger — Software License
 
-Copyright (c) 2025 fufufukakaka
+Copyright (c) 2025 fufufukakaka (Yusuke Fukasawa). All Rights Reserved.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+================================================================================
+日本語 (Japanese)
+================================================================================
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+本ソフトウェア（Pokemon Champions Battle Logger、以下「本ソフトウェア」と
+いいます）の著作権はすべて著作者 fufufukakaka に帰属します。
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+著作者は、以下の条件のもとに、本ソフトウェアの個人利用を許諾します。
+
+【許諾される行為】
+  - 公式配布チャネル（GitHub Releases）から本ソフトウェアをダウンロードし、
+    個人かつ非商用の目的で使用すること。
+
+【禁止される行為】
+  本ソフトウェアの利用者は、著作者の事前の書面による許諾なく、以下の行為を
+  行ってはなりません。
+  - 本ソフトウェア（バイナリ・ソースコード・付随データ・モデル等を含む）の
+    全部または一部を、有償・無償を問わず再配布、頒布、公開、転載すること。
+  - 本ソフトウェアを改変、翻案、派生著作物の作成を行うこと。
+  - 本ソフトウェアをリバースエンジニアリング、逆コンパイル、逆アセンブル、
+    その他解析する行為（適用法令により明示的に許容されている範囲を除く）。
+  - 本ソフトウェアを商用目的（営利目的の業務利用、有償サービスへの組込み等）
+    で使用すること。
+  - 本ソフトウェアの著作権表示・本ライセンス表示を削除または改変すること。
+
+【第三者ソフトウェア】
+  本ソフトウェアには、各々のオープンソースライセンスのもとで配布される
+  第三者ソフトウェアが含まれています。それらについては各ライセンスが優先して
+  適用されます。
+
+【無保証・免責】
+  本ソフトウェアは「現状有姿（AS IS）」で提供されます。著作者は、本ソフト
+  ウェアに関して、商品性、特定目的への適合性、第三者の権利非侵害を含む
+  いかなる保証も行いません。本ソフトウェアの使用または使用不能から生じる
+  いかなる損害（直接・間接・付随的・特別・結果的損害を含む）についても、
+  著作者は一切の責任を負いません。
+
+【任天堂等の知的財産】
+  本ソフトウェアは、任天堂株式会社、株式会社ゲームフリーク、株式会社
+  ポケモンとは一切関係のない、非公式の解析支援ツールです。「ポケモン」
+  「Pokemon Champions」その他関連する名称・キャラクター・画像等の権利は
+  各権利者に帰属します。
+
+================================================================================
+English
+================================================================================
+
+All copyright in this software (Pokemon Champions Battle Logger, the
+"Software") is owned by the author, fufufukakaka.
+
+The author grants a limited license to use the Software under the following
+terms.
+
+PERMITTED USE
+  - Downloading the Software from the official distribution channel
+    (GitHub Releases) and using it for personal, non-commercial purposes.
+
+PROHIBITED ACTS
+  Without the author's prior written consent, you may NOT:
+  - Redistribute, publish, share, mirror, or otherwise make available all or
+    any part of the Software (including binaries, source code, bundled data,
+    and model files), whether for a fee or free of charge.
+  - Modify, adapt, translate, or create derivative works based on the
+    Software.
+  - Reverse-engineer, decompile, disassemble, or otherwise attempt to derive
+    the source code of the Software, except to the extent expressly permitted
+    by applicable law.
+  - Use the Software for any commercial purpose (including for-profit
+    business use or incorporation into a paid service).
+  - Remove or alter any copyright notice or this license notice.
+
+THIRD-PARTY SOFTWARE
+  The Software bundles third-party components distributed under their own
+  open-source licenses. Those licenses govern the corresponding components.
+
+NO WARRANTY / DISCLAIMER OF LIABILITY
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL
+  THE AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY (INCLUDING
+  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, OR CONSEQUENTIAL DAMAGES) ARISING
+  FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+  DEALINGS IN THE SOFTWARE.
+
+NINTENDO / POKEMON COMPANY INTELLECTUAL PROPERTY
+  This Software is an unofficial analysis tool and is not affiliated with,
+  endorsed by, or sponsored by Nintendo Co., Ltd., GAME FREAK Inc., or
+  The Pokemon Company. "Pokemon", "Pokemon Champions", and all related
+  names, characters, and imagery are the property of their respective
+  rights holders.

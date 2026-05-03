@@ -4,7 +4,7 @@
   <img src="https://img.shields.io/github/v/release/fufufukakaka/pokemon_champions_battle_logger?style=flat-square&color=FF3B30" alt="Release">
   <img src="https://img.shields.io/github/downloads/fufufukakaka/pokemon_champions_battle_logger/total?style=flat-square&color=00B4DC" alt="Downloads">
   <img src="https://img.shields.io/badge/platforms-Windows%20%7C%20macOS%20%7C%20Linux-32D74B?style=flat-square" alt="Platforms">
-  <img src="https://img.shields.io/badge/license-MIT-555?style=flat-square" alt="License">
+  <img src="https://img.shields.io/badge/license-Proprietary-555?style=flat-square" alt="License">
 </p>
 
 <p align="center">
@@ -20,7 +20,7 @@
 - **詳細な分析** — 勝率推移、選出統計、KO 統計などをリアルタイム ダッシュボードで可視化
 - **8 言語対応** — 日本語、英語、繁体中文、簡体中文、韓国語、フランス語、スペイン語、イタリア語、ドイツ語
 - **100% ローカル** — データは全てお手元のマシンに保存されます。クラウド連携、アカウント登録、トラッキングは一切ありません
-- **無料 & オープンソース**
+- **個人利用は無料**
 
 ## ダウンロード
 
@@ -117,6 +117,14 @@ macOS 版は Developer ID 証明書でコード署名されていますが、**A
 - [バグ報告](https://github.com/fufufukakaka/pokemon_champions_battle_logger/issues/new?template=bug_report.yml)
 - [機能リクエスト](https://github.com/fufufukakaka/pokemon_champions_battle_logger/issues/new?template=feature_request.yml)
 <!-- - [Discord](https://discord.gg/XXXXX) -->
+
+## ライセンス
+
+本ソフトウェアは **All Rights Reserved**（独自プロプライエタリライセンス）です。
+
+公式配布チャネル（GitHub Releases）からダウンロードして**個人かつ非商用の目的**で使用することを許諾します。**再配布・改変・リバースエンジニアリング・商用利用は禁止**です。
+
+詳細は [LICENSE](LICENSE) を参照してください。
 
 ---
 
