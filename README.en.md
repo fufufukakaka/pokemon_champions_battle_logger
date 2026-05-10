@@ -52,36 +52,6 @@ To run the app:
 
 Some antivirus software may also flag the executable as a false positive. If this happens, please add an exception for `poke_champions_logger.exe`.
 
-### macOS Users
-
-The macOS build is code-signed with a Developer ID certificate, but **not notarized by Apple** (Apple's notary service has been intermittently failing to process this app's bundle structure — see [tauri-apps/tauri#11992](https://github.com/tauri-apps/tauri/issues/11992)). Gatekeeper will therefore display a warning the first time you launch the app.
-
-> **⚠️ Important — macOS Sequoia / Tahoe users**
->
-> The first-launch warning shows two buttons: **Move to Trash** (「ゴミ箱に入れる」) and **Done** (「完了」). **Do NOT click "Move to Trash"** — it will delete the app you just installed. Click **Done** and follow the steps below to allow the app via System Settings.
-
-#### First-launch instructions (one-time only)
-
-##### macOS Sequoia 15 / Tahoe 26 or later
-
-1. Open the downloaded `.dmg` and drag **Pokemon Champions Battle Logger.app** into your **Applications** folder
-2. Try to launch the app — the warning dialog appears. Click **Done** (「完了」). *Do not click "Move to Trash".*
-3. Open **System Settings → Privacy & Security**
-4. Scroll to the **Security** section — you'll see *"Pokemon Champions Battle Logger" was blocked to protect your Mac.*
-5. Click **Open Anyway** (「このまま開く」), then confirm with your Touch ID or password
-6. Try launching the app again — a dialog with an **Open** (「開く」) button appears. Click it.
-7. The app launches; macOS remembers your decision and opens normally on subsequent launches
-
-##### macOS Sonoma 14 or earlier
-
-1. Open the downloaded `.dmg` and drag **Pokemon Champions Battle Logger.app** into your **Applications** folder
-2. Open Finder, navigate to **Applications**
-3. **Right-click** (or Control-click) the app, then choose **Open** from the context menu
-4. A dialog appears: *"macOS cannot verify the developer of …"* — click **Open**
-5. The app launches; macOS remembers your decision and opens normally on subsequent launches
-
-The app's signature is fully verifiable with `codesign --verify` and traces back to the registered Apple Developer account `Yusuke Fukasawa (D8NPWYTRLD)`. Notarization will be re-enabled in a future release once the upstream issue is resolved.
-
 ## Screenshots
 
 ### Dashboard
