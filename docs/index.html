@@ -43,100 +43,86 @@
             };
         </script>
         <style>
-            html {
-                scroll-behavior: smooth;
-            }
-            body {
-                font-family: "Inter", sans-serif;
-            }
+            html { scroll-behavior: smooth; }
+            body { font-family: "Inter", sans-serif; }
 
-            /* Carousel */
-            .carousel {
-                position: relative;
+            /* Pulse dot used by the LIVE indicator on the live-scan device frame */
+            .pulse-dot { animation: pulse 1.4s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+            @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
+
+            /* Ambient glow per section — keeps the dark page feeling alive */
+            .glow-hero    { background-image: radial-gradient(ellipse at 50% 0%, rgba(34, 211, 238, 0.10), transparent 55%); }
+            .glow-tr-cyan { background-image: radial-gradient(circle at 80% 20%, rgba(34, 211, 238, 0.08), transparent 50%); }
+            .glow-tl-cyan { background-image: radial-gradient(circle at 20% 30%, rgba(34, 211, 238, 0.07), transparent 50%); }
+            .glow-br      { background-image: radial-gradient(circle at 85% 80%, rgba(34, 211, 238, 0.06), transparent 50%); }
+            .glow-bl      { background-image: radial-gradient(circle at 15% 80%, rgba(34, 211, 238, 0.05), transparent 50%); }
+
+            /* Browser-frame chrome reused across product sections */
+            .device-frame {
+                border-radius: 12px;
+                border: 1px solid #1E293B;
+                background: #0F172A;
                 overflow: hidden;
-                border-radius: 12px;
+                box-shadow: 0 24px 80px -20px rgba(0, 0, 0, 0.6);
             }
-            .carousel-track {
-                display: flex;
-                transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            .device-titlebar {
+                display: flex; align-items: center; justify-content: space-between;
+                padding: 10px 16px; background: #1E293B; border-bottom: 1px solid #1E293B;
             }
-            .carousel-slide {
-                min-width: 100%;
+            .device-dots { display: flex; gap: 6px; }
+            .device-dots span { width: 10px; height: 10px; border-radius: 50%; }
+            .device-dots .r { background: rgba(248,113,113,.7); }
+            .device-dots .y { background: rgba(250,204,21,.7); }
+            .device-dots .g { background: rgba(74,222,128,.7); }
+            .device-frame img { display: block; width: 100%; height: auto; }
+
+            /* Scroll-driven fade-in. Sections start translated down + transparent,
+               settle in via IntersectionObserver. Honours prefers-reduced-motion. */
+            .reveal {
+                opacity: 0;
+                transform: translateY(32px);
+                transition:
+                    opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+                will-change: opacity, transform;
             }
-            .carousel-slide img {
-                width: 100%;
-                height: auto;
-                display: block;
-                border-radius: 12px;
+            .reveal.in { opacity: 1; transform: translateY(0); }
+            .reveal-stagger > * {
+                opacity: 0;
+                transform: translateY(20px);
+                transition:
+                    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
             }
-            .carousel-caption {
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                padding: 16px 24px;
-                background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
-                border-radius: 0 0 12px 12px;
-                color: #fff;
-                font-size: 14px;
-                font-weight: 500;
-            }
-            .carousel-btn {
-                position: absolute;
-                top: 50%;
-                transform: translateY(-50%);
-                width: 44px;
-                height: 44px;
-                border-radius: 50%;
-                background: rgba(0, 0, 0, 0.5);
-                border: 1px solid rgba(255, 255, 255, 0.15);
-                color: #fff;
-                font-size: 18px;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                backdrop-filter: blur(8px);
-                z-index: 2;
-            }
-            .carousel-btn:hover {
-                background: rgba(0, 0, 0, 0.7);
-            }
-            .carousel-btn.prev {
-                left: 12px;
-            }
-            .carousel-btn.next {
-                right: 12px;
-            }
-            .carousel-dots {
-                display: flex;
-                justify-content: center;
-                gap: 8px;
-                margin-top: 16px;
-            }
-            .carousel-dot {
-                width: 8px;
-                height: 8px;
-                border-radius: 50%;
-                background: #475569;
-                border: none;
-                cursor: pointer;
-                padding: 0;
-            }
-            .carousel-dot.active {
-                background: #22d3ee;
-                width: 24px;
-                border-radius: 4px;
+            .reveal-stagger.in > *           { opacity: 1; transform: translateY(0); }
+            .reveal-stagger.in > *:nth-child(1) { transition-delay: 0ms; }
+            .reveal-stagger.in > *:nth-child(2) { transition-delay: 80ms; }
+            .reveal-stagger.in > *:nth-child(3) { transition-delay: 160ms; }
+            .reveal-stagger.in > *:nth-child(4) { transition-delay: 240ms; }
+            .reveal-stagger.in > *:nth-child(5) { transition-delay: 320ms; }
+            .reveal-stagger.in > *:nth-child(6) { transition-delay: 400ms; }
+            .reveal-stagger.in > *:nth-child(7) { transition-delay: 480ms; }
+
+            @media (prefers-reduced-motion: reduce) {
+                .reveal, .reveal-stagger > * {
+                    opacity: 1 !important;
+                    transform: none !important;
+                    transition: none !important;
+                }
             }
         </style>
         <script>
             // ===== i18n =====
+            // Headlines stay in English in both languages (keeps the cool
+            // English copy intact); body text + sub paragraphs swap.
             const i18n = {
                 en: {
+                    "nav.live": "Live Scan",
                     "nav.features": "Features",
                     "nav.how": "How It Works",
                     "nav.github": "GitHub",
                     "nav.download": "Download",
+
                     "hero.badge": "A personal tool, shared freely",
                     "hero.headline":
                         "Record and analyze your Pokémon battles. Automatically.",
@@ -144,34 +130,74 @@
                         "Drop a video. Get every team, move, and result logged by AI.\nNo manual input. No setup. Just your battle data, organized.",
                     "hero.cta.primary": "Download Free",
                     "hero.cta.secondary": "View on GitHub",
-                    "install.macos.note":
-                        "<strong>macOS users:</strong> the app is signed but not Apple-notarized. See <a href='https://github.com/fufufukakaka/pokemon_champions_battle_logger/blob/main/README.en.md#macos-users' class='text-accent hover:text-accent-hover underline'>first-launch installation notes</a> after download.",
-                    "feat.label": "FEATURES",
-                    "feat.title": "Battle intelligence, automated.",
-                    "feat.sub": "Drop a video and let AI handle the rest.",
-                    "feat.1.title": "Auto Battle Detection",
-                    "feat.1.desc":
-                        "Paste a YouTube URL or drop a local file. AI detects battle scenes, identifies Pokémon, moves, and outcomes.",
-                    "feat.2.title": "Deep Analytics",
-                    "feat.2.desc":
-                        "Win rate trends, team usage patterns, knockout stats — all visualized in real time. Find your weaknesses.",
-                    "feat.3.title": "8 Languages",
-                    "feat.3.desc":
-                        "Japanese, English, Chinese, Korean and more. Built to be shared with trainers around the world.",
+                    "hero.frame.caption": "Battle Detail · turn-by-turn",
+
+                    "live.badge": "NEW",
+                    "live.eyebrow": "v0.0.28 · Live Scan",
+                    "live.headline": "Live, while you play.",
+                    "live.sub":
+                        "Stream to OBS, and the log writes itself.\nNo file upload, no waiting. Battles land in your dashboard the moment they end.",
+                    "live.b1.title": "OBS Virtual Camera, detected automatically",
+                    "live.b1.desc": "Scanning starts the second your stream goes live.",
+                    "live.b2.title": "In-battle card, updated live",
+                    "live.b2.desc": "HP, turn count, active Pokémon — read frame by frame.",
+                    "live.b3.title": "Top-ranker matches at team preview",
+                    "live.b3.desc": "See the opponent's 6 lined up against meta teams, before you commit.",
+                    "live.cta.primary": "Try Live Scan",
+                    "live.cta.secondary": "See how it works →",
+
+                    "sec.dashboard.label": "DASHBOARD",
+                    "sec.dashboard.headline": "Latest battles. At a glance.",
+                    "sec.dashboard.desc":
+                        "Win rate, recent matchups, season standing — your last 5 battles in one screen. Open the app and you're already mid-review.",
+
+                    "sec.video.label": "VIDEO PROCESSING",
+                    "sec.video.headline": "Drop a video. Get the data.",
+                    "sec.video.desc":
+                        "Paste a YouTube URL or a local file. AI tags every team, move, and outcome — usually faster than re-watching it.",
+
+                    "sec.analysis.label": "ANALYSIS",
+                    "sec.analysis.headline": "Beyond the win rate.",
+                    "sec.analysis.desc":
+                        "Move usage, lead matchups, KO breakdowns. Find the patterns behind your record — the ones the bare win-loss number never shows.",
+
+                    "sec.detail.label": "BATTLE DETAIL",
+                    "sec.detail.headline": "Replay any turn.",
+                    "sec.detail.desc":
+                        "Open a battle, jump to the move that mattered. Backed by the original video frame — so you can verify exactly what the AI saw.",
+
                     "how.label": "HOW IT WORKS",
-                    "how.title": "From recording to insights, seamlessly.",
-                    "how.1": "Play a battle",
-                    "how.2": "Record or upload",
-                    "how.3": "Paste the URL",
-                    "how.4": "AI analyzes",
-                    "how.5": "Review your stats",
-                    "cta.headline": "Give it a try.",
+                    "how.title": "From battle to insights, automatically.",
+                    "how.sub": "Two paths in. Same dashboard out.",
+                    "how.live.label": "LIVE",
+                    "how.live.tag": "while you play",
+                    "how.live.s1.h": "① PLAY",
+                    "how.live.s1.d": "Battle on Switch as usual",
+                    "how.live.s2.h": "② STREAM",
+                    "how.live.s2.d": "OBS Virtual Camera feeds the app",
+                    "how.live.s3.h": "③ AI READS",
+                    "how.live.s3.d": "Every turn logged, live",
+                    "how.live.s4.h": "④ REVIEW",
+                    "how.live.s4.d": "Open the dashboard. Already there.",
+                    "how.rec.label": "RECORDED",
+                    "how.rec.tag": "from a video",
+                    "how.rec.s1.h": "① PLAY",
+                    "how.rec.s1.d": "Battle and record to YouTube or local file",
+                    "how.rec.s2.h": "② PASTE",
+                    "how.rec.s2.d": "Drop the URL or video file in",
+                    "how.rec.s3.h": "③ AI READS",
+                    "how.rec.s3.d": "Every battle pulled from the footage",
+                    "how.rec.s4.h": "④ REVIEW",
+                    "how.rec.s4.d": "Open the dashboard. Done.",
+
+                    "cta.headline": "Play more. Log less.",
                     "cta.sub":
-                        "Free to use, and your data stays local.\nBuilt for trainers, by a trainer.",
+                        "Free to download. Your data stays local.",
                     "cta.primary": "Download Now",
                     "cta.secondary": "Star on GitHub",
                     "cta.discord": "Discord",
                     "cta.x": "X (Twitter)",
+
                     "footer.tagline":
                         "A battle logger for\nPokémon competitive play.",
                     "footer.col1.title": "PRODUCT",
@@ -189,16 +215,14 @@
                     "footer.privacy": "Privacy Policy",
                     "footer.terms": "Terms of Use",
                     "footer.copy": "© 2026 Pokemon Champions Battle Logger",
-                    "carousel.dashboard": "Dashboard",
-                    "carousel.upload": "Video Processing",
-                    "carousel.analysis": "Analysis",
-                    "carousel.detail": "Battle Detail",
                 },
                 ja: {
+                    "nav.live": "Live Scan",
                     "nav.features": "Features",
                     "nav.how": "How It Works",
                     "nav.github": "GitHub",
                     "nav.download": "Download",
+
                     "hero.badge": "A personal tool, shared freely",
                     "hero.headline":
                         "Record and analyze your Pokémon battles. Automatically.",
@@ -206,35 +230,74 @@
                         "動画をインプットすれば機械学習によって自動的に解析.\n対戦に集中したあとで、自動的に振り返り。",
                     "hero.cta.primary": "Download Free",
                     "hero.cta.secondary": "View on GitHub",
-                    "install.macos.note":
-                        "<strong>macOS をご利用の方へ:</strong> アプリは署名済みですが Apple のノータライズは未実施です。インストール後の初回起動手順について <a href='https://github.com/fufufukakaka/pokemon_champions_battle_logger#macos-%E3%83%A6%E3%83%BC%E3%82%B6%E3%81%AE%E6%96%B9%E3%81%B8' class='text-accent hover:text-accent-hover underline'>こちらの注意事項</a> をご確認ください。",
-                    "feat.label": "FEATURES",
-                    "feat.title": "Battle intelligence, automated.",
-                    "feat.sub": "対戦動画を録画するだけ。機械学習で解析します",
-                    "feat.1.title": "Auto Battle Detection",
-                    "feat.1.desc":
-                        "対戦動画の YouTube URL かローカルファイルを入力。 機械学習によって、シーンやポケモン名、技、バトルメッセージの検出と読み取りを行います。",
-                    "feat.2.title": "Deep Analytics",
-                    "feat.2.desc":
-                        "勝率推移や技の使用率、ポケモンごとの勝率などを自動的に集計。AI と一緒に振り返ろう。",
-                    "feat.3.title": "8 Languages",
-                    "feat.3.desc":
-                        "ポケモン名については日本語、英語を主として8言語に対応。",
+                    "hero.frame.caption": "Battle Detail · turn-by-turn",
+
+                    "live.badge": "NEW",
+                    "live.eyebrow": "v0.0.28 · Live Scan",
+                    "live.headline": "Live, while you play.",
+                    "live.sub":
+                        "対戦中に、リアルタイム解析。OBS Virtual Camera をつなぐだけで配信開始と同時にスキャンが走り、対戦が終わった瞬間にダッシュボードへ反映されます。",
+                    "live.b1.title": "OBS Virtual Camera を自動検知",
+                    "live.b1.desc": "配信開始したら勝手にスキャン開始 / 停止",
+                    "live.b2.title": "対戦中カードがリアルタイム更新",
+                    "live.b2.desc": "HP / ターン数 / 出てるポケモンを即時表示",
+                    "live.b3.title": "相手 6 体マッチング表示",
+                    "live.b3.desc": "選出画面の段階で上位構築・過去同型を提示",
+                    "live.cta.primary": "Try Live Scan",
+                    "live.cta.secondary": "See how it works →",
+
+                    "sec.dashboard.label": "DASHBOARD",
+                    "sec.dashboard.headline": "Latest battles. At a glance.",
+                    "sec.dashboard.desc":
+                        "直近の戦績を一目で確認できるダッシュボード。勝率や直近の試合で勝ったポケモン、負けたポケモンが見れます。",
+
+                    "sec.video.label": "VIDEO PROCESSING",
+                    "sec.video.headline": "Drop a video. Get the data.",
+                    "sec.video.desc":
+                        "動画を渡せばあとは解析するだけ。YouTube URL でもローカルでも。",
+
+                    "sec.analysis.label": "ANALYSIS",
+                    "sec.analysis.headline": "Beyond the win rate.",
+                    "sec.analysis.desc":
+                        "勝率だけじゃない。技選択や対面、起点ポケモンを掘り下げて振り返り。",
+
+                    "sec.detail.label": "BATTLE DETAIL",
+                    "sec.detail.headline": "Replay any turn.",
+                    "sec.detail.desc":
+                        "一戦の中身を、ターン単位で振り返り。元動画のフレームに飛んで確認。",
+
                     "how.label": "HOW IT WORKS",
-                    "how.title": "From recording to insights, seamlessly.",
-                    "how.1": "いつも通りに対戦",
-                    "how.2":
-                        "対戦を録画して YouTube(限定公開など) にアップロード",
-                    "how.3": "ツール上で YouTube URL を入力",
-                    "how.4": "機械学習による解析",
-                    "how.5": "対戦のデータを振り返り",
-                    "cta.headline": "Give it a try.",
+                    "how.title": "From battle to insights, automatically.",
+                    "how.sub": "対戦の記録方法はリアルタイム、動画解析の2パターン。どちらも同じダッシュボードに。",
+                    "how.live.label": "LIVE",
+                    "how.live.tag": "対戦しながら",
+                    "how.live.s1.h": "① PLAY",
+                    "how.live.s1.d": "いつも通り Switch で対戦",
+                    "how.live.s2.h": "② STREAM",
+                    "how.live.s2.d": "OBS Virtual Camera からアプリへ",
+                    "how.live.s3.h": "③ AI READS",
+                    "how.live.s3.d": "全ターンをリアルタイム記録",
+                    "how.live.s4.h": "④ REVIEW",
+                    "how.live.s4.d": "ダッシュボードを開けばもう載ってる",
+                    "how.rec.label": "RECORDED",
+                    "how.rec.tag": "動画から",
+                    "how.rec.s1.h": "① PLAY",
+                    "how.rec.s1.d": "対戦を YouTube またはローカルに録画",
+                    "how.rec.s2.h": "② PASTE",
+                    "how.rec.s2.d": "URL またはファイルを貼り付け",
+                    "how.rec.s3.h": "③ AI READS",
+                    "how.rec.s3.d": "動画から全戦を抽出",
+                    "how.rec.s4.h": "④ REVIEW",
+                    "how.rec.s4.d": "ダッシュボードで振り返り",
+
+                    "cta.headline": "Play more. Log less.",
                     "cta.sub":
-                        "無料で利用できます。また、対戦データは全てローカルに保存。\nポケモン対戦ユーザの作った、ポケモン対戦ユーザのためのツールです。",
+                        "無料で利用できます。対戦データは全てローカルに保存。",
                     "cta.primary": "Download Now",
                     "cta.secondary": "Star on GitHub",
                     "cta.discord": "Discord",
                     "cta.x": "X (Twitter)",
+
                     "footer.tagline":
                         "A battle logger for\nPokémon competitive play.",
                     "footer.col1.title": "PRODUCT",
@@ -252,10 +315,6 @@
                     "footer.privacy": "Privacy Policy",
                     "footer.terms": "Terms of Use",
                     "footer.copy": "© 2026 Pokemon Champions Battle Logger",
-                    "carousel.dashboard": "Dashboard",
-                    "carousel.upload": "Video Processing",
-                    "carousel.analysis": "Analysis",
-                    "carousel.detail": "Battle Detail",
                 },
             };
 
@@ -278,7 +337,6 @@
                         }
                     }
                 });
-                // Update toggle button labels
                 const label = lang === "en" ? "EN" : "JA";
                 const toggle = document.getElementById("langToggle");
                 if (toggle) toggle.textContent = label;
@@ -291,15 +349,16 @@
 
             function toggleLang() {
                 const next = currentLang === "en" ? "ja" : "en";
-                if (!i18n[next]) return; // ja not yet loaded
+                if (!i18n[next]) return;
                 setLang(next);
             }
         </script>
     </head>
     <body class="bg-page text-text-primary">
-        <!-- Header -->
+
+        <!-- ===== Header ===== -->
         <header
-            class="flex items-center justify-between h-[72px] px-6 lg:px-20 bg-page"
+            class="sticky top-0 z-40 flex items-center justify-between h-[72px] px-6 lg:px-20 bg-page/80 backdrop-blur-md border-b border-border/70"
         >
             <div class="flex items-center gap-2.5">
                 <img src="favicon-512x512.png" alt="Logo" class="w-8 h-8 rounded-md" />
@@ -310,6 +369,12 @@
             </div>
             <!-- Desktop nav -->
             <nav class="hidden md:flex items-center gap-9">
+                <a
+                    href="#live"
+                    class="text-sm font-medium text-text-muted hover:text-text-secondary transition-colors"
+                    data-i18n="nav.live"
+                    >Live Scan</a
+                >
                 <a
                     href="#features"
                     class="text-sm font-medium text-text-muted hover:text-text-secondary transition-colors"
@@ -404,6 +469,13 @@
                 </div>
                 <nav class="flex flex-col items-center gap-8 pt-12">
                     <a
+                        href="#live"
+                        onclick="toggleMobileMenu()"
+                        class="text-xl font-medium text-text-secondary"
+                        data-i18n="nav.live"
+                        >Live Scan</a
+                    >
+                    <a
                         href="#features"
                         onclick="toggleMobileMenu()"
                         class="text-xl font-medium text-text-secondary"
@@ -443,13 +515,12 @@
             </div>
         </header>
 
-        <!-- Hero -->
+        <!-- ===== 1. Hero ===== -->
         <section
-            class="flex flex-col items-center pt-16 md:pt-20 pb-12 md:pb-16 px-4 sm:px-8 gap-8 bg-page"
+            class="glow-hero relative flex flex-col items-center pt-16 md:pt-24 pb-12 md:pb-20 px-4 sm:px-8 gap-7 bg-page reveal-stagger in"
         >
-            <!-- Personal badge -->
             <div
-                class="flex items-center gap-2 rounded-full px-4 py-1.5 border border-border"
+                class="flex items-center gap-2 rounded-full px-4 py-1.5 border border-border bg-surface/40 backdrop-blur-sm"
             >
                 <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
                 <span
@@ -459,13 +530,13 @@
                 >
             </div>
             <h1
-                class="font-inter text-4xl sm:text-5xl md:text-[56px] font-bold text-center leading-[1.1] tracking-[-2px] max-w-[900px] text-white"
+                class="font-inter text-5xl sm:text-6xl md:text-[72px] font-bold text-center leading-[1.05] tracking-[-2px] max-w-[920px] text-white"
                 data-i18n="hero.headline"
             >
-                Record and analyze your<br />Pokémon battles. Automatically.
+                Record and analyze your Pokémon battles. Automatically.
             </h1>
             <p
-                class="text-base md:text-lg text-center leading-relaxed max-w-[700px] text-text-secondary"
+                class="text-base md:text-lg text-center leading-relaxed max-w-[640px] text-text-secondary"
                 data-i18n="hero.sub"
             >
                 Drop a video. Get every team, move, and result logged by AI.<br />
@@ -503,511 +574,300 @@
                     <span data-i18n="hero.cta.secondary">View on GitHub</span>
                 </a>
             </div>
-            <p
-                class="text-xs text-text-muted text-center max-w-md leading-relaxed -mt-2"
-                data-i18n="install.macos.note"
-            >
-                <strong>macOS users:</strong> the app is signed but not
-                Apple-notarized. See
-                <a
-                    href="https://github.com/fufufukakaka/pokemon_champions_battle_logger/blob/main/README.en.md#macos-users"
-                    class="text-accent hover:text-accent-hover underline"
-                    >first-launch installation notes</a
-                >
-                after download.
-            </p>
-            <!-- Screenshot carousel -->
-            <div class="w-full max-w-[1000px] mt-4">
-                <div
-                    class="carousel border border-border rounded-xl shadow-2xl shadow-black/40"
-                >
-                    <div class="carousel-track" id="carouselTrack">
-                        <div class="carousel-slide">
-                            <img
-                                src="dashboard.png"
-                                alt="Dashboard"
-                                loading="lazy"
-                            />
-                            <div
-                                class="carousel-caption"
-                                data-i18n="carousel.dashboard"
-                            >
-                                Dashboard
+
+            <!-- Hero image: Battle Detail -->
+            <div class="w-full max-w-[1100px] mt-6">
+                <div class="device-frame">
+                    <div class="device-titlebar">
+                        <div class="flex items-center gap-3">
+                            <div class="device-dots">
+                                <span class="r"></span><span class="y"></span><span class="g"></span>
                             </div>
+                            <span class="text-xs text-text-muted font-mono" data-i18n="hero.frame.caption">Battle Detail · turn-by-turn</span>
                         </div>
-                        <div class="carousel-slide">
-                            <img
-                                src="upload_and_process_video.png"
-                                alt="Video Processing"
-                                loading="lazy"
-                            />
-                            <div
-                                class="carousel-caption"
-                                data-i18n="carousel.upload"
-                            >
-                                Video Processing
-                            </div>
-                        </div>
-                        <div class="carousel-slide">
-                            <img
-                                src="analysis.png"
-                                alt="Analysis"
-                                loading="lazy"
-                            />
-                            <div
-                                class="carousel-caption"
-                                data-i18n="carousel.analysis"
-                            >
-                                Analysis
-                            </div>
-                        </div>
-                        <div class="carousel-slide">
-                            <img
-                                src="battle_detail.png"
-                                alt="Battle Detail"
-                                loading="lazy"
-                            />
-                            <div
-                                class="carousel-caption"
-                                data-i18n="carousel.detail"
-                            >
-                                Battle Detail
-                            </div>
-                        </div>
+                        <span class="text-[11px] font-mono text-text-muted">v0.0.28</span>
                     </div>
-                    <button
-                        class="carousel-btn prev"
-                        onclick="moveCarousel(-1)"
-                        aria-label="Previous"
-                    >
-                        ‹
-                    </button>
-                    <button
-                        class="carousel-btn next"
-                        onclick="moveCarousel(1)"
-                        aria-label="Next"
-                    >
-                        ›
-                    </button>
+                    <img src="battle_detail.png" alt="Battle Detail — turn-by-turn replay" loading="eager" />
                 </div>
-                <div class="carousel-dots" id="carouselDots"></div>
             </div>
         </section>
 
-        <!-- Divider -->
-        <div class="h-px bg-border"></div>
+        <!-- ===== 2. Live Scan (NEW) ===== -->
+        <section
+            id="live"
+            class="glow-tr-cyan py-20 md:py-28 px-4 sm:px-8 lg:px-20 bg-page reveal"
+        >
+            <div class="max-w-[1280px] mx-auto grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] gap-10 lg:gap-16 items-center">
+                <div class="flex flex-col gap-6">
+                    <div class="flex items-center gap-2 self-start rounded-full pl-2 pr-3 py-1.5 border border-accent/40 bg-accent/5">
+                        <span class="px-2 py-0.5 rounded-full bg-accent text-page text-[10px] font-bold tracking-wide" data-i18n="live.badge">NEW</span>
+                        <span class="font-mono text-[11px] font-medium text-accent tracking-wide" data-i18n="live.eyebrow">v0.0.28 · Live Scan</span>
+                    </div>
+                    <h2 class="font-inter text-4xl md:text-5xl font-bold text-white leading-[1.1] tracking-[-1.5px]" data-i18n="live.headline">
+                        Live, while you play.
+                    </h2>
+                    <p class="text-base md:text-lg text-text-secondary leading-relaxed" data-i18n="live.sub">
+                        Stream to OBS, and the log writes itself.<br/>
+                        No file upload, no waiting. Battles land in your dashboard the moment they end.
+                    </p>
+                    <ul class="flex flex-col gap-3 mt-2">
+                        <li class="flex items-start gap-3">
+                            <span class="mt-1 w-5 h-5 rounded-full bg-accent/15 grid place-items-center flex-shrink-0">
+                                <svg class="w-3 h-3 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                            </span>
+                            <div>
+                                <div class="text-white text-sm font-semibold" data-i18n="live.b1.title">OBS Virtual Camera, detected automatically</div>
+                                <div class="text-text-muted text-sm" data-i18n="live.b1.desc">Scanning starts the second your stream goes live.</div>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="mt-1 w-5 h-5 rounded-full bg-accent/15 grid place-items-center flex-shrink-0">
+                                <svg class="w-3 h-3 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                            </span>
+                            <div>
+                                <div class="text-white text-sm font-semibold" data-i18n="live.b2.title">In-battle card, updated live</div>
+                                <div class="text-text-muted text-sm" data-i18n="live.b2.desc">HP, turn count, active Pokémon — read frame by frame.</div>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="mt-1 w-5 h-5 rounded-full bg-accent/15 grid place-items-center flex-shrink-0">
+                                <svg class="w-3 h-3 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                            </span>
+                            <div>
+                                <div class="text-white text-sm font-semibold" data-i18n="live.b3.title">Top-ranker matches at team preview</div>
+                                <div class="text-text-muted text-sm" data-i18n="live.b3.desc">See the opponent's 6 lined up against meta teams, before you commit.</div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="flex flex-wrap items-center gap-3 mt-2">
+                        <a href="https://github.com/fufufukakaka/pokemon_champions_battle_logger/releases/latest" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 bg-accent text-page font-semibold text-[14px] px-6 py-3 rounded-lg hover:bg-accent-hover transition">
+                            <span data-i18n="live.cta.primary">Try Live Scan</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" x2="19" y1="12" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        </a>
+                        <a href="#how" class="text-[13px] font-medium text-text-secondary hover:text-white transition" data-i18n="live.cta.secondary">See how it works →</a>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="device-frame">
+                        <div class="device-titlebar">
+                            <div class="flex items-center gap-2">
+                                <div class="device-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+                                <span class="ml-2 text-xs text-text-muted font-mono">localhost:8000/live</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-red-500 pulse-dot"></span>
+                                <span class="text-[11px] font-mono font-semibold text-red-400">● LIVE</span>
+                            </div>
+                        </div>
+                        <img src="live_scan.png" alt="Live Scan in action" loading="lazy" />
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        <!-- Features -->
+        <!-- ===== 3. Dashboard ===== -->
         <section
             id="features"
-            class="flex flex-col items-center py-16 md:py-20 px-4 sm:px-8 lg:px-20 gap-12 bg-page"
+            class="glow-tl-cyan py-20 md:py-28 px-4 sm:px-8 lg:px-20 bg-page reveal"
         >
-            <div class="flex flex-col items-center gap-3">
-                <span
-                    class="font-mono text-[11px] font-semibold text-accent tracking-[2px]"
-                    data-i18n="feat.label"
-                    >FEATURES</span
-                >
-                <h2
-                    class="font-inter text-3xl md:text-4xl font-bold text-white text-center tracking-[-1px]"
-                    data-i18n="feat.title"
-                >
-                    Battle intelligence, automated.
-                </h2>
-                <p
-                    class="text-base text-text-muted text-center"
-                    data-i18n="feat.sub"
-                >
-                    Drop a video and let AI handle the rest.
-                </p>
-            </div>
-            <div
-                class="grid grid-cols-1 md:grid-cols-3 gap-5 w-full max-w-[1200px]"
-            >
-                <!-- Card 1 -->
-                <div
-                    class="flex flex-col gap-4 p-7 rounded-xl bg-surface border border-border"
-                >
-                    <div
-                        class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center"
-                    >
-                        <svg
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="#22D3EE"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        >
-                            <path
-                                d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"
-                            />
-                            <rect x="2" y="6" width="14" height="12" rx="2" />
-                        </svg>
+            <div class="max-w-[1280px] mx-auto grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] gap-10 lg:gap-16 items-center">
+                <div class="lg:order-1 order-2">
+                    <div class="device-frame">
+                        <div class="device-titlebar">
+                            <div class="device-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+                            <span class="text-xs text-text-muted font-mono">Dashboard</span>
+                        </div>
+                        <img src="dashboard.png" alt="Dashboard" loading="lazy" />
                     </div>
-                    <h3
-                        class="font-inter text-lg font-semibold text-white"
-                        data-i18n="feat.1.title"
-                    >
-                        Auto Battle Detection
-                    </h3>
-                    <p
-                        class="text-sm text-text-muted leading-relaxed"
-                        data-i18n="feat.1.desc"
-                    >
-                        Paste a YouTube URL or drop a local file. AI detects
-                        battle scenes, identifies Pokémon, moves, and outcomes.
-                    </p>
                 </div>
-                <!-- Card 2 -->
-                <div
-                    class="flex flex-col gap-4 p-7 rounded-xl bg-surface border border-border"
-                >
-                    <div
-                        class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center"
-                    >
-                        <svg
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="#22D3EE"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        >
-                            <path d="M3 3v16a2 2 0 0 0 2 2h16" />
-                            <path d="m19 9-5 5-4-4-3 3" />
-                        </svg>
-                    </div>
-                    <h3
-                        class="font-inter text-lg font-semibold text-white"
-                        data-i18n="feat.2.title"
-                    >
-                        Deep Analytics
-                    </h3>
-                    <p
-                        class="text-sm text-text-muted leading-relaxed"
-                        data-i18n="feat.2.desc"
-                    >
-                        Win rate trends, team usage patterns, knockout stats —
-                        all visualized in real time. Find your weaknesses.
-                    </p>
-                </div>
-                <!-- Card 3 -->
-                <div
-                    class="flex flex-col gap-4 p-7 rounded-xl bg-surface border border-border"
-                >
-                    <div
-                        class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center"
-                    >
-                        <svg
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="#22D3EE"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        >
-                            <circle cx="12" cy="12" r="10" />
-                            <path
-                                d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"
-                            />
-                            <path d="M2 12h20" />
-                        </svg>
-                    </div>
-                    <h3
-                        class="font-inter text-lg font-semibold text-white"
-                        data-i18n="feat.3.title"
-                    >
-                        8 Languages
-                    </h3>
-                    <p
-                        class="text-sm text-text-muted leading-relaxed"
-                        data-i18n="feat.3.desc"
-                    >
-                        Japanese, English, Chinese, Korean and more. Built to be
-                        shared with trainers around the world.
+                <div class="lg:order-2 order-1 flex flex-col gap-6">
+                    <span class="font-mono text-[11px] font-semibold text-accent tracking-[2px]" data-i18n="sec.dashboard.label">DASHBOARD</span>
+                    <h2 class="font-inter text-4xl md:text-5xl font-bold text-white leading-[1.1] tracking-[-1.5px]" data-i18n="sec.dashboard.headline">
+                        Latest battles. At a glance.
+                    </h2>
+                    <p class="text-base md:text-lg text-text-secondary leading-relaxed" data-i18n="sec.dashboard.desc">
+                        Win rate, recent matchups, season standing — your last 100 battles in one screen. Open the app and you're already mid-review.
                     </p>
                 </div>
             </div>
         </section>
 
-        <!-- Divider -->
-        <div class="h-px bg-border"></div>
+        <!-- ===== 4. Video Processing ===== -->
+        <section
+            class="glow-br py-20 md:py-28 px-4 sm:px-8 lg:px-20 bg-page reveal"
+        >
+            <div class="max-w-[1280px] mx-auto grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] gap-10 lg:gap-16 items-center">
+                <div class="flex flex-col gap-6">
+                    <span class="font-mono text-[11px] font-semibold text-accent tracking-[2px]" data-i18n="sec.video.label">VIDEO PROCESSING</span>
+                    <h2 class="font-inter text-4xl md:text-5xl font-bold text-white leading-[1.1] tracking-[-1.5px]" data-i18n="sec.video.headline">
+                        Drop a video. Get the data.
+                    </h2>
+                    <p class="text-base md:text-lg text-text-secondary leading-relaxed" data-i18n="sec.video.desc">
+                        Paste a YouTube URL or a local file. AI tags every team, move, and outcome — usually faster than re-watching it.
+                    </p>
+                </div>
+                <div>
+                    <div class="device-frame">
+                        <div class="device-titlebar">
+                            <div class="device-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+                            <span class="text-xs text-text-muted font-mono">Video Processing</span>
+                        </div>
+                        <img src="upload_and_process_video.png" alt="Video Processing" loading="lazy" />
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        <!-- How It Works -->
+        <!-- ===== 5. Analysis ===== -->
+        <section
+            class="glow-bl py-20 md:py-28 px-4 sm:px-8 lg:px-20 bg-page reveal"
+        >
+            <div class="max-w-[1280px] mx-auto grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] gap-10 lg:gap-16 items-center">
+                <div class="lg:order-1 order-2">
+                    <div class="device-frame">
+                        <div class="device-titlebar">
+                            <div class="device-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+                            <span class="text-xs text-text-muted font-mono">Analysis</span>
+                        </div>
+                        <img src="analysis.png" alt="Analysis" loading="lazy" />
+                    </div>
+                </div>
+                <div class="lg:order-2 order-1 flex flex-col gap-6">
+                    <span class="font-mono text-[11px] font-semibold text-accent tracking-[2px]" data-i18n="sec.analysis.label">ANALYSIS</span>
+                    <h2 class="font-inter text-4xl md:text-5xl font-bold text-white leading-[1.1] tracking-[-1.5px]" data-i18n="sec.analysis.headline">
+                        Beyond the win rate.
+                    </h2>
+                    <p class="text-base md:text-lg text-text-secondary leading-relaxed" data-i18n="sec.analysis.desc">
+                        Move usage, lead matchups, KO breakdowns. Find the patterns behind your record — the ones the bare win-loss number never shows.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 6. Battle Detail ===== -->
+        <section
+            class="glow-tr-cyan py-20 md:py-28 px-4 sm:px-8 lg:px-20 bg-page reveal"
+        >
+            <div class="max-w-[1280px] mx-auto grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] gap-10 lg:gap-16 items-center">
+                <div class="flex flex-col gap-6">
+                    <span class="font-mono text-[11px] font-semibold text-accent tracking-[2px]" data-i18n="sec.detail.label">BATTLE DETAIL</span>
+                    <h2 class="font-inter text-4xl md:text-5xl font-bold text-white leading-[1.1] tracking-[-1.5px]" data-i18n="sec.detail.headline">
+                        Replay any turn.
+                    </h2>
+                    <p class="text-base md:text-lg text-text-secondary leading-relaxed" data-i18n="sec.detail.desc">
+                        Open a battle, jump to the move that mattered. Backed by the original video frame — so you can verify exactly what the AI saw.
+                    </p>
+                </div>
+                <div>
+                    <div class="device-frame">
+                        <div class="device-titlebar">
+                            <div class="device-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+                            <span class="text-xs text-text-muted font-mono">Battle Detail</span>
+                        </div>
+                        <img src="battle_detail.png" alt="Battle Detail" loading="lazy" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 7. How It Works (vertical stack) ===== -->
         <section
             id="how"
-            class="flex flex-col items-center py-16 md:py-20 px-4 sm:px-8 gap-12 bg-surface"
+            class="py-20 md:py-28 px-4 sm:px-8 lg:px-20 gap-12 flex flex-col items-center bg-page border-t border-border/60 reveal"
         >
             <div class="flex flex-col items-center gap-3">
-                <span
-                    class="font-mono text-[11px] font-semibold text-accent tracking-[2px]"
-                    data-i18n="how.label"
-                    >HOW IT WORKS</span
-                >
-                <h2
-                    class="font-inter text-3xl md:text-4xl font-bold text-white text-center tracking-[-1px]"
-                    data-i18n="how.title"
-                >
-                    From recording to insights, seamlessly.
+                <span class="font-mono text-[11px] font-semibold text-accent tracking-[2px]" data-i18n="how.label">HOW IT WORKS</span>
+                <h2 class="font-inter text-3xl md:text-4xl font-bold text-white text-center tracking-[-1px]" data-i18n="how.title">
+                    From battle to insights, automatically.
                 </h2>
+                <p class="text-base text-text-muted text-center max-w-[640px]" data-i18n="how.sub">
+                    Two paths in. Same dashboard out.
+                </p>
             </div>
-            <div
-                class="flex flex-wrap justify-center items-center gap-2 md:gap-0 w-full max-w-[1200px]"
-            >
-                <!-- Step 1 -->
-                <div
-                    class="flex flex-col items-center gap-3 w-[140px] md:w-[200px]"
-                >
-                    <span
-                        class="font-mono text-2xl md:text-3xl font-bold text-accent"
-                        >01</span
-                    >
-                    <svg
-                        width="28"
-                        height="28"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="#475569"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    >
-                        <path d="m14.5 12.5-5-3v6z" />
-                        <circle cx="12" cy="12" r="10" />
-                    </svg>
-                    <span
-                        class="text-sm font-medium text-text-secondary text-center"
-                        data-i18n="how.1"
-                        >Play a battle</span
-                    >
+
+            <div class="flex flex-col gap-5 w-full max-w-[820px]">
+                <!-- Live path -->
+                <div class="flex flex-col gap-5 p-7 rounded-xl bg-surface border border-border">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="px-2 py-0.5 rounded-full bg-accent text-page text-[10px] font-bold tracking-wide" data-i18n="how.live.label">LIVE</span>
+                            <span class="text-xs text-text-muted font-mono" data-i18n="how.live.tag">while you play</span>
+                        </div>
+                        <span class="text-[11px] font-mono text-text-dim">v0.0.28</span>
+                    </div>
+                    <ol class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                        <li class="flex flex-col gap-1.5">
+                            <span class="text-[11px] font-mono text-accent" data-i18n="how.live.s1.h">① PLAY</span>
+                            <span class="text-sm text-text-secondary" data-i18n="how.live.s1.d">Battle on Switch as usual</span>
+                        </li>
+                        <li class="flex flex-col gap-1.5">
+                            <span class="text-[11px] font-mono text-accent" data-i18n="how.live.s2.h">② STREAM</span>
+                            <span class="text-sm text-text-secondary" data-i18n="how.live.s2.d">OBS Virtual Camera feeds the app</span>
+                        </li>
+                        <li class="flex flex-col gap-1.5">
+                            <span class="text-[11px] font-mono text-accent" data-i18n="how.live.s3.h">③ AI READS</span>
+                            <span class="text-sm text-text-secondary" data-i18n="how.live.s3.d">Every turn logged, live</span>
+                        </li>
+                        <li class="flex flex-col gap-1.5">
+                            <span class="text-[11px] font-mono text-accent" data-i18n="how.live.s4.h">④ REVIEW</span>
+                            <span class="text-sm text-text-secondary" data-i18n="how.live.s4.d">Open the dashboard. Already there.</span>
+                        </li>
+                    </ol>
                 </div>
-                <svg
-                    class="hidden md:block text-border"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                >
-                    <path d="m9 18 6-6-6-6" />
-                </svg>
-                <!-- Step 2 -->
-                <div
-                    class="flex flex-col items-center gap-3 w-[140px] md:w-[200px]"
-                >
-                    <span
-                        class="font-mono text-2xl md:text-3xl font-bold text-accent"
-                        >02</span
-                    >
-                    <svg
-                        width="28"
-                        height="28"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="#475569"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    >
-                        <rect
-                            x="2"
-                            y="2"
-                            width="20"
-                            height="20"
-                            rx="2.18"
-                            ry="2.18"
-                        />
-                        <line x1="7" x2="7" y1="2" y2="22" />
-                        <line x1="17" x2="17" y1="2" y2="22" />
-                        <line x1="2" x2="22" y1="12" y2="12" />
-                        <line x1="2" x2="7" y1="7" y2="7" />
-                        <line x1="2" x2="7" y1="17" y2="17" />
-                        <line x1="17" x2="22" y1="7" y2="7" />
-                        <line x1="17" x2="22" y1="17" y2="17" />
-                    </svg>
-                    <span
-                        class="text-sm font-medium text-text-secondary text-center"
-                        data-i18n="how.2"
-                        >Record or upload</span
-                    >
-                </div>
-                <svg
-                    class="hidden md:block text-border"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                >
-                    <path d="m9 18 6-6-6-6" />
-                </svg>
-                <!-- Step 3 -->
-                <div
-                    class="flex flex-col items-center gap-3 w-[140px] md:w-[200px]"
-                >
-                    <span
-                        class="font-mono text-2xl md:text-3xl font-bold text-accent"
-                        >03</span
-                    >
-                    <svg
-                        width="28"
-                        height="28"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="#475569"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    >
-                        <path
-                            d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
-                        />
-                        <path
-                            d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
-                        />
-                    </svg>
-                    <span
-                        class="text-sm font-medium text-text-secondary text-center"
-                        data-i18n="how.3"
-                        >Paste the URL</span
-                    >
-                </div>
-                <svg
-                    class="hidden md:block text-border"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                >
-                    <path d="m9 18 6-6-6-6" />
-                </svg>
-                <!-- Step 4 -->
-                <div
-                    class="flex flex-col items-center gap-3 w-[140px] md:w-[200px]"
-                >
-                    <span
-                        class="font-mono text-2xl md:text-3xl font-bold text-accent"
-                        >04</span
-                    >
-                    <svg
-                        width="28"
-                        height="28"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="#475569"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    >
-                        <rect x="4" y="4" width="16" height="16" rx="2" />
-                        <rect x="9" y="9" width="6" height="6" />
-                        <path d="M15 2v2" />
-                        <path d="M15 20v2" />
-                        <path d="M2 15h2" />
-                        <path d="M2 9h2" />
-                        <path d="M20 15h2" />
-                        <path d="M20 9h2" />
-                        <path d="M9 2v2" />
-                        <path d="M9 20v2" />
-                    </svg>
-                    <span
-                        class="text-sm font-medium text-text-secondary text-center"
-                        data-i18n="how.4"
-                        >AI analyzes</span
-                    >
-                </div>
-                <svg
-                    class="hidden md:block text-border"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                >
-                    <path d="m9 18 6-6-6-6" />
-                </svg>
-                <!-- Step 5 -->
-                <div
-                    class="flex flex-col items-center gap-3 w-[140px] md:w-[200px]"
-                >
-                    <span
-                        class="font-mono text-2xl md:text-3xl font-bold text-accent"
-                        >05</span
-                    >
-                    <svg
-                        width="28"
-                        height="28"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="#475569"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    >
-                        <path d="M3 3v16a2 2 0 0 0 2 2h16" />
-                        <path d="m19 9-5 5-4-4-3 3" />
-                    </svg>
-                    <span
-                        class="text-sm font-medium text-text-secondary text-center"
-                        data-i18n="how.5"
-                        >Review your stats</span
-                    >
+
+                <!-- Recorded path -->
+                <div class="flex flex-col gap-5 p-7 rounded-xl bg-surface border border-border">
+                    <div class="flex items-center gap-2">
+                        <span class="px-2 py-0.5 rounded-full bg-text-muted text-page text-[10px] font-bold tracking-wide" data-i18n="how.rec.label">RECORDED</span>
+                        <span class="text-xs text-text-muted font-mono" data-i18n="how.rec.tag">from a video</span>
+                    </div>
+                    <ol class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                        <li class="flex flex-col gap-1.5">
+                            <span class="text-[11px] font-mono text-accent" data-i18n="how.rec.s1.h">① PLAY</span>
+                            <span class="text-sm text-text-secondary" data-i18n="how.rec.s1.d">Battle and record to YouTube or local file</span>
+                        </li>
+                        <li class="flex flex-col gap-1.5">
+                            <span class="text-[11px] font-mono text-accent" data-i18n="how.rec.s2.h">② PASTE</span>
+                            <span class="text-sm text-text-secondary" data-i18n="how.rec.s2.d">Drop the URL or video file in</span>
+                        </li>
+                        <li class="flex flex-col gap-1.5">
+                            <span class="text-[11px] font-mono text-accent" data-i18n="how.rec.s3.h">③ AI READS</span>
+                            <span class="text-sm text-text-secondary" data-i18n="how.rec.s3.d">Every battle pulled from the footage</span>
+                        </li>
+                        <li class="flex flex-col gap-1.5">
+                            <span class="text-[11px] font-mono text-accent" data-i18n="how.rec.s4.h">④ REVIEW</span>
+                            <span class="text-sm text-text-secondary" data-i18n="how.rec.s4.d">Open the dashboard. Done.</span>
+                        </li>
+                    </ol>
                 </div>
             </div>
         </section>
 
-        <!-- Divider -->
-        <div class="h-px bg-border"></div>
-
-        <!-- Final CTA -->
+        <!-- ===== 8. Final CTA =====
+             Alternative English headlines (swap into cta.headline if preferred):
+               · Battles in. Insights out.
+               · Your battles. Your data. Your call.
+               · Stop typing what you just played.
+               · Less spreadsheet. More play.
+        -->
         <section
             id="download"
-            class="flex flex-col items-center py-20 md:py-24 px-4 sm:px-8 gap-8 bg-page"
+            class="glow-hero py-20 md:py-28 px-4 sm:px-8 lg:px-20 flex flex-col items-center gap-8 bg-page border-t border-border/60 reveal"
         >
-            <h2
-                class="font-inter text-4xl md:text-[44px] font-bold text-white text-center tracking-[-1.5px]"
-                data-i18n="cta.headline"
-            >
-                Give it a try.
+            <h2 class="font-inter text-4xl md:text-[56px] font-bold text-center leading-[1.05] tracking-[-2px] text-white max-w-[760px]" data-i18n="cta.headline">
+                Play more. Log less.
             </h2>
-            <p
-                class="text-base md:text-[17px] text-text-muted text-center leading-relaxed max-w-[500px]"
-                data-i18n="cta.sub"
-            >
-                Free to use, and your data stays local.<br />
-                Built for trainers, by a trainer.
+            <p class="text-base md:text-lg text-text-secondary text-center max-w-[600px] leading-relaxed" data-i18n="cta.sub">
+                Free to download. Your data stays local.
             </p>
-            <div
-                class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto"
-            >
+            <div class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
                 <a
                     href="https://github.com/fufufukakaka/pokemon_champions_battle_logger/releases/latest"
                     target="_blank"
                     rel="noopener noreferrer"
                     class="flex items-center justify-center gap-2.5 bg-accent text-page font-semibold text-base px-10 py-4 rounded-lg hover:bg-accent-hover transition w-full sm:w-auto"
                 >
-                    <svg
-                        width="18"
-                        height="18"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                         <polyline points="7 10 12 15 17 10" />
                         <line x1="12" x2="12" y1="15" y2="3" />
@@ -1018,37 +878,12 @@
                     href="https://github.com/fufufukakaka/pokemon_champions_battle_logger"
                     class="flex items-center justify-center gap-2.5 font-medium text-base px-10 py-4 rounded-lg border border-border text-text-secondary hover:border-text-muted transition w-full sm:w-auto"
                 >
-                    <svg
-                        width="18"
-                        height="18"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    >
-                        <polygon
-                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                        />
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
                     </svg>
                     <span data-i18n="cta.secondary">Star on GitHub</span>
                 </a>
             </div>
-            <p
-                class="text-xs text-text-muted text-center max-w-md leading-relaxed -mt-4"
-                data-i18n="install.macos.note"
-            >
-                <strong>macOS users:</strong> the app is signed but not
-                Apple-notarized. See
-                <a
-                    href="https://github.com/fufufukakaka/pokemon_champions_battle_logger/blob/main/README.en.md#macos-users"
-                    class="text-accent hover:text-accent-hover underline"
-                    >first-launch installation notes</a
-                >
-                after download.
-            </p>
-            <!-- Social links -->
             <div class="flex items-center gap-6 mt-2">
                 <a
                     href="https://discord.gg/37ApwRvUrW"
@@ -1056,23 +891,10 @@
                     rel="noopener noreferrer"
                     class="flex items-center gap-2 px-5 py-2.5 rounded-lg border border-border hover:border-text-muted transition"
                 >
-                    <svg
-                        width="22"
-                        height="22"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="white"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    >
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
                     </svg>
-                    <span
-                        class="font-semibold text-base text-white"
-                        data-i18n="cta.discord"
-                        >Discord</span
-                    >
+                    <span class="font-semibold text-base text-white" data-i18n="cta.discord">Discord</span>
                 </a>
                 <span class="text-2xl font-light text-border">|</span>
                 <a
@@ -1081,152 +903,53 @@
                     rel="noopener noreferrer"
                     class="flex items-center gap-2 px-5 py-2.5 rounded-lg border border-border hover:border-text-muted transition"
                 >
-                    <svg
-                        width="22"
-                        height="22"
-                        viewBox="0 0 24 24"
-                        fill="white"
-                    >
-                        <path
-                            d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
-                        />
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                     </svg>
-                    <span
-                        class="font-semibold text-base text-white"
-                        data-i18n="cta.x"
-                        >X (Twitter)</span
-                    >
+                    <span class="font-semibold text-base text-white" data-i18n="cta.x">X (Twitter)</span>
                 </a>
             </div>
         </section>
 
-        <!-- Divider -->
-        <div class="h-px bg-border"></div>
-
-        <!-- Footer -->
-        <footer class="px-6 lg:px-20 pt-12 pb-8 bg-[#060A14]">
+        <!-- ===== Footer ===== -->
+        <footer class="px-6 lg:px-20 pt-12 pb-8 bg-[#060A14] border-t border-border/60">
             <div class="flex flex-col md:flex-row justify-between gap-10 mb-8">
-                <!-- Brand -->
                 <div class="flex flex-col gap-3 max-w-[320px]">
                     <div class="flex items-center gap-2">
                         <img src="favicon-32x32.png" alt="Logo" class="w-6 h-6 rounded" />
-                        <span
-                            class="font-inter text-[13px] font-semibold text-white"
-                            >Pokemon Champions Battle Logger</span
-                        >
+                        <span class="font-inter text-[13px] font-semibold text-white">Pokemon Champions Battle Logger</span>
                     </div>
-                    <p
-                        class="text-xs text-text-dim leading-relaxed"
-                        data-i18n="footer.tagline"
-                    >
+                    <p class="text-xs text-text-dim leading-relaxed" data-i18n="footer.tagline">
                         A battle logger for<br />Pokémon competitive play.
                     </p>
                 </div>
-                <!-- Columns -->
                 <div class="flex gap-16 md:gap-20 flex-wrap">
                     <div class="flex flex-col gap-3">
-                        <span
-                            class="font-mono text-[10px] font-semibold text-text-dim tracking-[2px]"
-                            data-i18n="footer.col1.title"
-                            >PRODUCT</span
-                        >
-                        <a
-                            href="#features"
-                            class="text-[13px] text-text-muted hover:text-text-secondary transition-colors"
-                            data-i18n="footer.col1.1"
-                            >Features</a
-                        >
-                        <a
-                            href="https://github.com/fufufukakaka/pokemon_champions_battle_logger/releases/latest"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="text-[13px] text-text-muted hover:text-text-secondary transition-colors"
-                            data-i18n="footer.col1.2"
-                            >Download</a
-                        >
-                        <a
-                            href="#"
-                            class="text-[13px] text-text-muted hover:text-text-secondary transition-colors"
-                            data-i18n="footer.col1.3"
-                            >Changelog</a
-                        >
+                        <span class="font-mono text-[10px] font-semibold text-text-dim tracking-[2px]" data-i18n="footer.col1.title">PRODUCT</span>
+                        <a href="#features" class="text-[13px] text-text-muted hover:text-text-secondary transition-colors" data-i18n="footer.col1.1">Features</a>
+                        <a href="https://github.com/fufufukakaka/pokemon_champions_battle_logger/releases/latest" target="_blank" rel="noopener noreferrer" class="text-[13px] text-text-muted hover:text-text-secondary transition-colors" data-i18n="footer.col1.2">Download</a>
+                        <a href="#" class="text-[13px] text-text-muted hover:text-text-secondary transition-colors" data-i18n="footer.col1.3">Changelog</a>
                     </div>
                     <div class="flex flex-col gap-3">
-                        <span
-                            class="font-mono text-[10px] font-semibold text-text-dim tracking-[2px]"
-                            data-i18n="footer.col2.title"
-                            >LINKS</span
-                        >
-                        <a
-                            href="https://github.com/fufufukakaka/pokemon_champions_battle_logger"
-                            class="text-[13px] text-text-muted hover:text-text-secondary transition-colors"
-                            data-i18n="footer.col2.1"
-                            >GitHub</a
-                        >
-                        <a
-                            href="#"
-                            class="text-[13px] text-text-muted hover:text-text-secondary transition-colors"
-                            data-i18n="footer.col2.2"
-                            >Documentation</a
-                        >
-                        <a
-                            href="#"
-                            class="text-[13px] text-text-muted hover:text-text-secondary transition-colors"
-                            data-i18n="footer.col2.3"
-                            >Changelog</a
-                        >
+                        <span class="font-mono text-[10px] font-semibold text-text-dim tracking-[2px]" data-i18n="footer.col2.title">LINKS</span>
+                        <a href="https://github.com/fufufukakaka/pokemon_champions_battle_logger" class="text-[13px] text-text-muted hover:text-text-secondary transition-colors" data-i18n="footer.col2.1">GitHub</a>
+                        <a href="#" class="text-[13px] text-text-muted hover:text-text-secondary transition-colors" data-i18n="footer.col2.2">Documentation</a>
+                        <a href="#" class="text-[13px] text-text-muted hover:text-text-secondary transition-colors" data-i18n="footer.col2.3">Changelog</a>
                     </div>
                     <div class="flex flex-col gap-3">
-                        <span
-                            class="font-mono text-[10px] font-semibold text-text-dim tracking-[2px]"
-                            data-i18n="footer.col3.title"
-                            >COMMUNITY</span
-                        >
-                        <a
-                            href="https://x.com/pokechampbatlog"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="text-[13px] text-text-muted hover:text-text-secondary transition-colors"
-                            data-i18n="footer.col3.1"
-                            >Twitter / X</a
-                        >
-                        <a
-                            href="https://discord.gg/37ApwRvUrW"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="text-[13px] text-text-muted hover:text-text-secondary transition-colors"
-                            data-i18n="footer.col3.2"
-                            >Discord</a
-                        >
-                        <a
-                            href="#"
-                            class="text-[13px] text-text-muted hover:text-text-secondary transition-colors"
-                            data-i18n="footer.col3.3"
-                            >Report Bug</a
-                        >
+                        <span class="font-mono text-[10px] font-semibold text-text-dim tracking-[2px]" data-i18n="footer.col3.title">COMMUNITY</span>
+                        <a href="https://x.com/pokechampbatlog" target="_blank" rel="noopener noreferrer" class="text-[13px] text-text-muted hover:text-text-secondary transition-colors" data-i18n="footer.col3.1">Twitter / X</a>
+                        <a href="https://discord.gg/37ApwRvUrW" target="_blank" rel="noopener noreferrer" class="text-[13px] text-text-muted hover:text-text-secondary transition-colors" data-i18n="footer.col3.2">Discord</a>
+                        <a href="#" class="text-[13px] text-text-muted hover:text-text-secondary transition-colors" data-i18n="footer.col3.3">Report Bug</a>
                     </div>
                 </div>
             </div>
             <div class="h-px bg-border mb-6"></div>
-            <div
-                class="flex flex-col sm:flex-row justify-between items-center gap-4"
-            >
-                <span class="text-[11px] text-text-dim" data-i18n="footer.copy"
-                    >© 2026 Pokemon Champions Battle Logger</span
-                >
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+                <span class="text-[11px] text-text-dim" data-i18n="footer.copy">© 2026 Pokemon Champions Battle Logger</span>
                 <div class="flex items-center gap-6">
-                    <a
-                        href="#"
-                        class="text-sm text-accent hover:text-accent-hover transition-colors"
-                        data-i18n="footer.privacy"
-                        >Privacy Policy</a
-                    >
-                    <a
-                        href="#"
-                        class="text-sm text-accent hover:text-accent-hover transition-colors"
-                        data-i18n="footer.terms"
-                        >Terms of Use</a
-                    >
+                    <a href="#" class="text-sm text-accent hover:text-accent-hover transition-colors" data-i18n="footer.privacy">Privacy Policy</a>
+                    <a href="#" class="text-sm text-accent hover:text-accent-hover transition-colors" data-i18n="footer.terms">Terms of Use</a>
                 </div>
             </div>
         </footer>
@@ -1241,41 +964,29 @@
                     : "hidden";
             }
 
-            // Carousel
-            let currentSlide = 0;
-            const track = document.getElementById("carouselTrack");
-            const slides = track ? track.children : [];
-            const dotsContainer = document.getElementById("carouselDots");
-
-            function initCarousel() {
-                if (!dotsContainer || slides.length === 0) return;
-                for (let i = 0; i < slides.length; i++) {
-                    const dot = document.createElement("button");
-                    dot.className = "carousel-dot" + (i === 0 ? " active" : "");
-                    dot.onclick = () => goToSlide(i);
-                    dotsContainer.appendChild(dot);
+            // Scroll-driven fade-in. Hero is .reveal-stagger.in on initial
+            // load (visible immediately); every other section settles in
+            // when its top crosses the viewport.
+            (function () {
+                if (typeof IntersectionObserver === "undefined") {
+                    document.querySelectorAll(".reveal, .reveal-stagger").forEach((el) => el.classList.add("in"));
+                    return;
                 }
-            }
-
-            function goToSlide(n) {
-                currentSlide = n;
-                if (track) track.style.transform = `translateX(-${n * 100}%)`;
-                document.querySelectorAll(".carousel-dot").forEach((d, i) => {
-                    d.className = "carousel-dot" + (i === n ? " active" : "");
+                const obs = new IntersectionObserver(
+                    (entries) => {
+                        entries.forEach((entry) => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add("in");
+                                obs.unobserve(entry.target);
+                            }
+                        });
+                    },
+                    { threshold: 0.1, rootMargin: "0px 0px -8% 0px" }
+                );
+                document.querySelectorAll(".reveal, .reveal-stagger").forEach((el) => {
+                    if (!el.classList.contains("in")) obs.observe(el);
                 });
-            }
-
-            function moveCarousel(dir) {
-                let next = currentSlide + dir;
-                if (next < 0) next = slides.length - 1;
-                if (next >= slides.length) next = 0;
-                goToSlide(next);
-            }
-
-            // Auto-advance carousel
-            setInterval(() => moveCarousel(1), 5000);
-
-            initCarousel();
+            })();
         </script>
     </body>
 </html>
