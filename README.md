@@ -1,5 +1,7 @@
 # Pokemon Champions Battle Logger
 
+> 🌐 **English version**: see [README.en.md](README.en.md)
+
 <p align="center">
   <img src="https://img.shields.io/github/v/release/fufufukakaka/pokemon_champions_battle_logger?style=flat-square&color=FF3B30" alt="Release">
   <img src="https://img.shields.io/github/downloads/fufufukakaka/pokemon_champions_battle_logger/total?style=flat-square&color=00B4DC" alt="Downloads">
@@ -95,7 +97,11 @@
 
 ## 開発支援
 
-個人開発のため、継続的な改善には時間と検証環境の維持が必要です。役に立ったら [Buy Me a Coffee](https://buymeacoffee.com/fufufukakaka) から支援できます。
+個人開発のため、継続的な改善には時間と検証環境の維持が必要です。役に立ったら Buy Me a Coffee から支援できます。
+
+<p align="center">
+  <a href="https://www.buymeacoffee.com/fufufukakaka" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me a Coffee" height="60" width="217"></a>
+</p>
 
 ## ライセンス
 
@@ -104,7 +110,3 @@
 公式配布チャネル（GitHub Releases）からダウンロードして**個人かつ非商用の目的**で使用することを許諾します。**再配布・改変・リバースエンジニアリング・商用利用は禁止**です。
 
 詳細は [LICENSE](LICENSE) を参照してください。
-
----
-
-> 🌐 **English version**: see [README.en.md](README.en.md)

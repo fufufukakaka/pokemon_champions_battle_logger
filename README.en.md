@@ -97,7 +97,11 @@ Some antivirus software may also flag the executable as a false positive. If thi
 
 ## Support Development
 
-This is a personal project, and continued improvement takes time, testing, and maintenance. If the app helps you, you can support development on [Buy Me a Coffee](https://buymeacoffee.com/fufufukakaka).
+This is a personal project, and continued improvement takes time, testing, and maintenance. If the app helps you, you can support development on Buy Me a Coffee.
+
+<p align="center">
+  <a href="https://www.buymeacoffee.com/fufufukakaka" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me a Coffee" height="60" width="217"></a>
+</p>
 
 ## License
 
