@@ -9,7 +9,7 @@
 
 <p align="center">
   <strong>Dominate Your Battle Data.</strong><br>
-  Pokemon Champions Battle Logger automatically records and analyzes your battles from video.
+  Pokemon Champions Battle Logger automatically records and analyzes battles live or from recorded video.
 </p>
 
 > 🇯🇵 日本語版は [README.md](README.md) をご覧ください。
@@ -18,10 +18,13 @@
 
 ## Features
 
-- **Auto Battle Detection** - Drop a YouTube URL or local video file, and AI automatically detects battles, recognizes Pokemon, reads moves, and determines win/loss
-- **Deep Analytics** - Win rate trends, team selection stats, knockout statistics, all visualized in real-time dashboards
-- **8 Languages** - Japanese, English, Traditional Chinese, Simplified Chinese, Korean, French, Spanish, Italian, German
-- **100% Local** - Your data stays on your machine. No cloud, no accounts, no tracking
+- **Live Scan** - Read an OBS Virtual Camera feed while you play, then log turns, HP, and active Pokemon automatically
+- **Recorded Video Analysis** - Drop a YouTube URL or local video file to detect battles, recognize Pokemon, read moves, and determine win/loss
+- **Singles and Doubles** - Battle logs, team selection, opponent teams, and usage stats work for both formats
+- **In-Battle Assist** - Match the opponent's six Pokemon against top-ranker teams and past matchups, then check lines in the damage desk
+- **Deep Analytics** - Win rate trends, team selection stats, knockout statistics, battle details, and notes in one dashboard
+- **Language Support** - The app UI supports Japanese and English. Game text recognition supports Japanese, English, Traditional Chinese, Simplified Chinese, Korean, French, Spanish, Italian, and German
+- **Local Records** - Battle records stay on your machine. Some OCR / AI features may use external AI APIs when configured
 - **Free for Personal Use**
 
 ## Download
@@ -43,7 +46,7 @@
 
 ### Windows Users
 
-Windows SmartScreen may display a **"Windows protected your PC"** warning when launching the app for the first time. This is because the executable is not code-signed (Windows code-signing certificates are prohibitively expensive for an open-source project).
+Windows SmartScreen may display a **"Windows protected your PC"** warning when launching the app for the first time. This is because the executable is not code-signed (Windows code-signing certificates are prohibitively expensive for a personal project).
 
 To run the app:
 
@@ -60,10 +63,10 @@ Some antivirus software may also flag the executable as a false positive. If thi
   <img src="docs/dashboard.png" alt="Dashboard" width="800">
 </p>
 
-### Video Processing
+### Live Scan
 
 <p align="center">
-  <img src="docs/upload_and_process_video.png" alt="Video Processing" width="800">
+  <img src="docs/live_scan.png" alt="Live Scan" width="800">
 </p>
 
 ### Analysis
@@ -80,15 +83,21 @@ Some antivirus software may also flag the executable as a false positive. If thi
 
 ## Requirements
 
-- **Video input**: 1920x1080 (1080p) 30fps video
-- **Format**: Single battles in Pokemon Champions
-- **Storage**: ~500MB for the app + model files downloaded on first launch
+- **Input**: 1920x1080 (1080p) 30fps recommended
+- **Format**: Singles and doubles in Pokemon Champions
+- **Live Scan**: OBS Virtual Camera or equivalent camera input
+- **Storage**: A few hundred MB for the app and model files downloaded on first launch
 
 ## Community
 
 - [Report a Bug](https://github.com/fufufukakaka/pokemon_champions_battle_logger/issues/new?template=bug_report.yml)
 - [Request a Feature](https://github.com/fufufukakaka/pokemon_champions_battle_logger/issues/new?template=feature_request.yml)
-<!-- - [Discord](https://discord.gg/XXXXX) -->
+- [Discord](https://discord.gg/37ApwRvUrW)
+- [X (Twitter)](https://x.com/pokechampbatlog)
+
+## Support Development
+
+This is a personal project, and continued improvement takes time, testing, and maintenance. If the app helps you, you can support development on [Buy Me a Coffee](https://buymeacoffee.com/fufufukakaka).
 
 ## License
 
