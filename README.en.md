@@ -19,7 +19,7 @@
 ## Features
 
 - **Live Scan** - Read an OBS Virtual Camera feed while you play, then log turns, HP, and active Pokemon automatically
-- **Recorded Video Analysis** - Drop a YouTube URL or local video file to detect battles, recognize Pokemon, read moves, and determine win/loss
+- **Recorded Video Analysis** - Drop a YouTube URL or local video file to detect battles, recognize Pokemon, read moves, and determine win/loss. Widescreen recordings captured directly on Android or iPhone are analyzed with automatic resolution and aspect-ratio detection
 - **Singles and Doubles** - Battle logs, team selection, opponent teams, and usage stats work for both formats
 - **In-Battle Assist** - Match the opponent's six Pokemon against top-ranker teams and past matchups, then check lines in the damage desk
 - **Deep Analytics** - Win rate trends, team selection stats, knockout statistics, battle details, and notes in one dashboard
@@ -83,7 +83,7 @@ Some antivirus software may also flag the executable as a false positive. If thi
 
 ## Requirements
 
-- **Input**: 1920x1080 (1080p) 30fps recommended
+- **Input**: Widescreen Switch, Android, and iPhone video. Resolution and aspect ratio are detected automatically (720px+ height and 30fps recommended)
 - **Format**: Singles and doubles in Pokemon Champions
 - **Live Scan**: OBS Virtual Camera or equivalent camera input
 - **Storage**: A few hundred MB for the app and model files downloaded on first launch
