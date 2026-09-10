@@ -23,6 +23,7 @@
 - **Singles and Doubles** - Battle logs, team selection, opponent teams, and usage stats work for both formats
 - **In-Battle Assist** - Match the opponent's six Pokemon against top-ranker teams and past matchups, then check lines in the damage desk
 - **Deep Analytics** - Win rate trends, team selection stats, knockout statistics, battle details, and notes in one dashboard
+- **AI Battle Review** - Discuss a battle with Gemini, OpenAI, or Anthropic while the assistant references your battle log, usage stats, matchups, damage calculations, and board-state analysis. Your chosen provider's API key is required, and API charges may apply
 - **Language Support** - The app UI supports Japanese and English. Game text recognition supports Japanese, English, Traditional Chinese, Simplified Chinese, Korean, French, Spanish, Italian, and German
 - **Local Records** - Battle records stay on your machine. Some OCR / AI features may use external AI APIs when configured
 - **Free for Personal Use**
@@ -83,10 +84,13 @@ Some antivirus software may also flag the executable as a false positive. If thi
 
 ## Requirements
 
-- **Input**: Widescreen Switch, Android, and iPhone video. Resolution and aspect ratio are detected automatically (720px+ height and 30fps recommended)
+- **Input**: Landscape Switch, Android, and iPhone video. Resolution and aspect ratio are detected automatically
+- **Recommended recording settings**: 1920×1080 / 30fps. A 16:9 game screen gives the most reliable recognition; 1280×720 and other 16:9 resolutions are also supported. Lower resolutions may reduce text recognition accuracy
 - **Format**: Singles and doubles in Pokemon Champions
 - **Live Scan**: OBS Virtual Camera or equivalent camera input
 - **Storage**: A few hundred MB for the app and model files downloaded on first launch
+
+Other mobile landscape ratios are supported, but recognition accuracy may vary by layout. Record the full game screen without stretching, cropping, or borders.
 
 ## Community
 
