@@ -24,8 +24,10 @@
 - **In-Battle Assist** - Match the opponent's six Pokemon against top-ranker teams and past matchups, then check lines in the damage desk
 - **Deep Analytics** - Win rate trends, team selection stats, knockout statistics, battle details, and notes in one dashboard
 - **AI Battle Review** - Discuss a battle with Gemini, OpenAI, or Anthropic while the assistant references your battle log, usage stats, matchups, damage calculations, and board-state analysis. Your chosen provider's API key is required, and API charges may apply
+- **COMMA Evaluation (Beta)** - For singles, see COMMA's value right after team selection and at each of your decisions, the move it would pick, and the team it would bring. COMMA is an AI trained through self-play. The value estimates how things go if COMMA plays on from that point; it is not your chance of winning that battle
+- **Rematch and Playground** - Rematch an opponent from your records, or practice against COMMA with any party. Singles only
 - **Language Support** - The app UI supports Japanese and English. Game text recognition supports Japanese, English, Traditional Chinese, Simplified Chinese, Korean, French, Spanish, Italian, and German
-- **Local Records** - Battle records stay on your machine. Some OCR / AI features may use external AI APIs when configured
+- **Local Records** - Battle records stay on your machine. Some OCR / AI features may use external AI APIs when configured. COMMA Evaluation, rematches, and the Playground need an internet connection and send battle or party data to COMMA's server (trainer names and nicknames are not sent)
 - **Free for Personal Use**
 
 ## Download
